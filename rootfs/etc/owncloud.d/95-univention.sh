@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # docker script setup
 # inner script, called to setup / configure the docker container
 
@@ -130,4 +130,4 @@ sed -i "s#);#  'log_rotate_size' => 104857600,\n&#" $OWNCLOUD_CONF/config.php
 echo "[02.DOCKER_SETUP] configuring owncloud for onlyoffice use"
 sed -i "s#);#  'onlyoffice' => array ('verify_peer_off' => TRUE),\n&#" $OWNCLOUD_CONF/config.php
 
-exit 0
+true
