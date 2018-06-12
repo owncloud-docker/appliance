@@ -1,2 +1,3 @@
-.DS_Store
-*.tar.gz
+/owncloud-*.tar.bz2
+/richdocuments*.tar.gz
+/user_ldap*.tar.gz
