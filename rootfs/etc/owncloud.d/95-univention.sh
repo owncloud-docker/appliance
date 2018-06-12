@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # docker script setup
-# inner script, called to setup / configure the docker container
 
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
@@ -28,14 +28,14 @@ eval "$(< ${OWNCLOUD_LDAP_FILE})"
 if [ -f /var/lib/univention-appcenter/apps/owncloud/data/files/tobemigrated ]
 then
   echo "[02.DOCKER_SETUP] delete ldap config in docker setup script" 2>&1 | to_logfile
-  su -c "php occ ldap:delete-config ''" www-data 2>&1 | to_logfile
+  occ ldap:delete-config '' 2>&1 | to_logfile
   rm /var/lib/univention-appcenter/apps/owncloud/data/files/tobemigrated
 fi
 
 if [[ "$(occ ldap:show-config)" == "" ]]
 then
   echo "[02.DOCKER_SETUP] creating new ldap config in docker setup script" 2>&1 | to_logfile
-  su -c "php occ ldap:create-empty-config" www-data 2>&1 | to_logfile
+  occ ldap:create-empty-config 2>&1 | to_logfile
 fi
 
 echo "[02.DOCKER_SETUP] setting variables from values in docker setup script" 2>&1 | to_logfile
@@ -65,7 +65,7 @@ cat << EOF >| /etc/cron.d/sync
 */10  *  *  *  * root /usr/local/bin/occ user:sync -m disable 'OCA\User_LDAP\User_Proxy'
 EOF
 echo "[02.DOCKER_SETUP] first user sync"
-/usr/local/bin/occ user:sync -m disable "OCA\User_LDAP\User_Proxy" 2>&1 | to_logfile
+occ user:sync -m disable "OCA\User_LDAP\User_Proxy" 2>&1 | to_logfile
 
 ## Added from request of Thomas, to have a working collabora setup out of the box
 echo "[02.DOCKER_SETUP] setting collabora URL"
@@ -75,21 +75,21 @@ then
 fi
 
 # Cron seems to igrore old cron files
-echo "[02.DOCKER_SETUP] cron fix"
-test -f /etc/cron.d/owncloud && touch /etc/cron.d/owncloud
-test -f /etc/cron.d/php && touch /etc/cron.d/php
+#echo "[02.DOCKER_SETUP] cron fix"
+#test -f /etc/cron.d/owncloud && touch /etc/cron.d/owncloud
+#test -f /etc/cron.d/php && touch /etc/cron.d/php
 
 
 # avatars permissions folder creation fix
-echo "[02.DOCKER_SETUP] avatars fix"
-chown -R www-data:www-data /var/lib/univention-appcenter/apps/owncloud/
+#echo "[02.DOCKER_SETUP] avatars fix"
+#chown -R www-data:www-data /var/lib/univention-appcenter/apps/owncloud/
 
 # symlink für collabora
 # ln -sf /etc/ssl/certs/ca-certificates.crt /var/www/owncloud/resources/config/ca-bundle.crt
 
 # To reduce the size of the log file, log level will be set to error (3)
-echo "[02.DOCKER_SETUP] log level 3"
-occ log:manage --level 3 2>&1 | to_logfile
+#echo "[02.DOCKER_SETUP] log level 3"
+#occ log:manage --level 3 2>&1 | to_logfile
 
 #restore data
 # Variables
@@ -124,10 +124,10 @@ else
 fi
 #cat $collabora_log
 
-echo "[02.DOCKER_SETUP] enabling log log rotate" 
-sed -i "s#);#  'log_rotate_size' => 104857600,\n&#" $OWNCLOUD_CONF/config.php
+#echo "[02.DOCKER_SETUP] enabling log log rotate" 
+#sed -i "s#);#  'log_rotate_size' => 104857600,\n&#" $OWNCLOUD_CONF/config.php
 
 echo "[02.DOCKER_SETUP] configuring owncloud for onlyoffice use"
 sed -i "s#);#  'onlyoffice' => array ('verify_peer_off' => TRUE),\n&#" $OWNCLOUD_CONF/config.php
 
-exit 0
+true
