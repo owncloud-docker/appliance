@@ -80,4 +80,4 @@ else
 
 fi
 
-exit 0
+true
