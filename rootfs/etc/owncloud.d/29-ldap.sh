@@ -4,7 +4,7 @@ echo "[29.LDAP] Folder declaration"
 # creating this directory for the drone test not to fail because of the univention mount not being there
 if [ ! -d /var/lib/univention-appcenter/apps/owncloud/data/files ]
 then
-mkdir -p "/var/lib/univention-appcenter/apps/owncloud/data"
+mkdir -p "/var/lib/univention-appcenter/apps/owncloud/data/files"
 fi
 
 OWNCLOUD_PERM_DIR="/var/lib/univention-appcenter/apps/owncloud"
