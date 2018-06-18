@@ -5,14 +5,14 @@
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
 }
-echo "Dokcer Script: checking if ldap file is present..."
+echo "[95.univeniton.sh]: checking if ldap file is present..."
 if [ -f /var/lib/univention-appcenter/apps/owncloud/conf/ldap ]
 
 then
   OWNCLOUD_PERMCONF_DIR="/var/lib/univention-appcenter/apps/owncloud/conf"
   OWNCLOUD_LDAP_FILE="${OWNCLOUD_PERMCONF_DIR}/ldap"
 
-  echo "[02.DOCKER_SETUP] Enable user_ldap app" 2>&1 | to_logfile
+  echo "[95.univeniton.sh] Enable user_ldap app" 2>&1 | to_logfile
   n=1
   until [ $n -ge 20 ]
   do 
@@ -25,23 +25,23 @@ then
   done
   echo
 
-  echo "[02.DOCKER_SETUP] Read base configs for ldap" 2>&1 | to_logfile
+  echo "[95.univeniton.sh] Read base configs for ldap" 2>&1 | to_logfile
   eval "$(< ${OWNCLOUD_LDAP_FILE})"
 
   if [ -f /var/lib/univention-appcenter/apps/owncloud/data/files/tobemigrated ]
   then
-    echo "[02.DOCKER_SETUP] delete ldap config in docker setup script" 2>&1 | to_logfile
+    echo "[95.univeniton.sh] delete ldap config in docker setup script" 2>&1 | to_logfile
     occ ldap:delete-config '' 2>&1 | to_logfile
     rm /var/lib/univention-appcenter/apps/owncloud/data/files/tobemigrated
   fi
 
   if [[ "$(occ ldap:show-config)" == "" ]]
   then
-    echo "[02.DOCKER_SETUP] creating new ldap config in docker setup script" 2>&1 | to_logfile
+    echo "[95.univeniton.sh] creating new ldap config in docker setup script" 2>&1 | to_logfile
     occ ldap:create-empty-config 2>&1 | to_logfile
   fi
 
-  echo "[02.DOCKER_SETUP] setting variables from values in docker setup script" 2>&1 | to_logfile
+  echo "[95.univeniton.sh] setting variables from values in docker setup script" 2>&1 | to_logfile
   occ ldap:set-config s01 ldapHost ${LDAP_MASTER} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapPort ${LDAP_MASTER_PORT} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapAgentName ${LDAP_HOSTDN} 2>&1 | to_logfile
@@ -63,15 +63,15 @@ then
   occ ldap:set-config s01 useMemberOfToDetectMembership 0 2>&1 | to_logfile
   occ ldap:set-config s01 ldapConfigurationActive 1 2>&1 | to_logfile
 
-  echo "[02.DOCKER_SETUP] setting up user sync in cron"
+  echo "[95.univeniton.sh] setting up user sync in cron"
 cat << EOF >| /etc/cron.d/sync
 */10  *  *  *  * root /usr/local/bin/occ user:sync -m disable 'OCA\User_LDAP\User_Proxy'
 EOF
-  echo "[02.DOCKER_SETUP] first user sync"
+  echo "[95.univeniton.sh] first user sync"
   occ user:sync -m disable "OCA\User_LDAP\User_Proxy" 2>&1 | to_logfile
 
 ## Added from request of Thomas, to have a working collabora setup out of the box
-  echo "[02.DOCKER_SETUP] setting collabora URL"
+  echo "[95.univeniton.sh] setting collabora URL"
   if [[ "$(occ config:app:get richdocuments wopi_url)" == "" ]]
   then
      occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 2>&1 | to_logfile
@@ -105,7 +105,7 @@ EOF
   collabora_cert=/etc/univention/ssl/ucsCA/CAcert.pem
   owncloud_certs=/var/www/owncloud/resources/config/ca-bundle.crt
 
-  echo "[02.DOCKER_SETUP] Is the collabora certificate is mounted correctly" >> $collabora_log
+  echo "[95.univeniton.sh] Is the collabora certificate is mounted correctly" >> $collabora_log
   if [ -f $collabora_cert ]
   then
           echo "Yes.
@@ -131,12 +131,12 @@ EOF
   #echo "[02.DOCKER_SETUP] enabling log log rotate" 
   #sed -i "s#);#  'log_rotate_size' => 104857600,\n&#" $OWNCLOUD_CONF/config.php
 
-  echo "[02.DOCKER_SETUP] configuring owncloud for onlyoffice use"
+  echo "[95.univeniton.sh] configuring owncloud for onlyoffice use"
   sed -i "s#);#  'onlyoffice' => array ('verify_peer_off' => TRUE),\n&#" $OWNCLOUD_CONF/config.php
 
 else 
 
-  echo "no ldap file found..."
+  echo "[95.univeniton.sh] no ldap file found..."
 
 fi
 
