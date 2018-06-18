@@ -5,7 +5,10 @@
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
 }
+echo "Dokcer Script: checking if ldap file is present..."
+if [ -f /var/lib/univention-appcenter/apps/owncloud/conf/ldap ]
 
+then
 OWNCLOUD_PERMCONF_DIR="/var/lib/univention-appcenter/apps/owncloud/conf"
 OWNCLOUD_LDAP_FILE="${OWNCLOUD_PERMCONF_DIR}/ldap"
 
@@ -38,6 +41,7 @@ then
   occ ldap:create-empty-config 2>&1 | to_logfile
 fi
 
+if 
 echo "[02.DOCKER_SETUP] setting variables from values in docker setup script" 2>&1 | to_logfile
 occ ldap:set-config s01 ldapHost ${LDAP_MASTER} 2>&1 | to_logfile
 occ ldap:set-config s01 ldapPort ${LDAP_MASTER_PORT} 2>&1 | to_logfile
@@ -73,6 +77,7 @@ if [[ "$(occ config:app:get richdocuments wopi_url)" == "" ]]
 then
    occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 2>&1 | to_logfile
 fi
+
 
 # Cron seems to igrore old cron files
 #echo "[02.DOCKER_SETUP] cron fix"
@@ -129,5 +134,11 @@ fi
 
 echo "[02.DOCKER_SETUP] configuring owncloud for onlyoffice use"
 sed -i "s#);#  'onlyoffice' => array ('verify_peer_off' => TRUE),\n&#" $OWNCLOUD_CONF/config.php
+
+else 
+
+echo "no ldap file found..."
+
+fi
 
 true
