@@ -8,6 +8,7 @@ then
   echo "[29.LDAP.sh] Folder declaration"
   OWNCLOUD_PERM_DIR="/var/lib/univention-appcenter/apps/owncloud"
   OWNCLOUD_DATA="${OWNCLOUD_PERM_DIR}/data"
+  OWNCLOUD_CONF_LDAP=/var/lib/univention-appcenter/apps/owncloud/conf/ldap
 
   echo "[29.LDAP.sh] checking files folder..."
   ls $OWNCLOUD_DATA/files/
@@ -18,9 +19,10 @@ then
     tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
   }
 
-  eval "$(< ${OWNCLOUD_LDAP_FILE})"
+  eval "$(< ${OWNCLOUD_CONF_LDAP})"
   echo -e "\n\n------"
-  cat ${OWNCLOUD_LDAP_FILE}
+  cat ${OWNCLOUD_CONF_LDAP}
+
 
   echo "[29.LDAP.sh] Enable user_ldap app" 2>&1
   n=1
