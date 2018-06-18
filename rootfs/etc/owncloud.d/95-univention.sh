@@ -5,12 +5,14 @@
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
 }
+
 echo "[95.univeniton.sh]: Checking if ldap file is present..."
+
 if [ -f /var/lib/univention-appcenter/apps/owncloud/conf/ldap ]
 
 then
   OWNCLOUD_PERMCONF_DIR="/var/lib/univention-appcenter/apps/owncloud/conf"
-  OWNCLOUD_LDAP_FILE="${OWNCLOUD_PERMCONF_DIR}/ldap"
+  OWNCLOUD_CONF_LDAP="${OWNCLOUD_CONF}/ldap"
 
   echo "[95.univeniton.sh] Enable user_ldap app" 2>&1 | to_logfile
   n=1
@@ -26,7 +28,8 @@ then
   echo
 
   echo "[95.univeniton.sh] Read base configs for ldap" 2>&1 | to_logfile
-  eval "$(< ${OWNCLOUD_LDAP_FILE})"
+  eval "$(< ${OWNCLOUD_CONF_LDAP})"
+
 
   if [ -f /var/lib/univention-appcenter/apps/owncloud/data/files/tobemigrated ]
   then
@@ -56,8 +59,6 @@ then
   occ ldap:set-config s01 ldapExpertUUIDGroupAttr $owncloud_ldap_groupUuid 2>&1 | to_logfile
   occ ldap:set-config s01 ldapEmailAttribute $owncloud_ldap_emailAttribute 2>&1 | to_logfile
   occ ldap:set-config s01 ldapGroupMemberAssocAttr $owncloud_ldap_memberAssoc 2>&1 | to_logfile
-  #occ ldap:set-config s01 ldapAttributesForUserSearch $owncloud_ldap_search_users 2>&1 | to_logfile
-  #occ ldap:set-config s01 ldapAttributesForGroupSearch $owncloud_ldap_search_groups 2>&1 | to_logfile
   occ ldap:set-config s01 ldapBaseUsers $owncloud_ldap_base_users 2>&1 | to_logfile
   occ ldap:set-config s01 ldapBaseGroups $owncloud_ldap_base_groups 2>&1 | to_logfile
   occ ldap:set-config s01 useMemberOfToDetectMembership 0 2>&1 | to_logfile
@@ -77,12 +78,11 @@ EOF
      occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 2>&1 | to_logfile
   fi
 
-  #restore data
-  # Variables
+  
   OWNCLOUD_PERM_DIR="/var/lib/univention-appcenter/apps/owncloud"
   OWNCLOUD_DATA="${OWNCLOUD_PERM_DIR}/data"
   OWNCLOUD_CONF="${OWNCLOUD_PERM_DIR}/conf"
-  OWNCLOUD_CONF_LDAP="${OWNCLOUD_CONF}/ldap"
+
   collabora_log=/var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
   collabora_cert=/etc/univention/ssl/ucsCA/CAcert.pem
   owncloud_certs=/var/www/owncloud/resources/config/ca-bundle.crt
