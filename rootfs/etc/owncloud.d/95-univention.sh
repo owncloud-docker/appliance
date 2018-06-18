@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# docker script setup
+#  univention docker script setup
 
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
 }
-echo "[95.univeniton.sh]: checking if ldap file is present..."
+echo "[95.univeniton.sh]: Checking if ldap file is present..."
 if [ -f /var/lib/univention-appcenter/apps/owncloud/conf/ldap ]
 
 then
@@ -77,24 +77,6 @@ EOF
      occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 2>&1 | to_logfile
   fi
 
-
-  # Cron seems to igrore old cron files
-  #echo "[02.DOCKER_SETUP] cron fix"
-  #test -f /etc/cron.d/owncloud && touch /etc/cron.d/owncloud
-  #test -f /etc/cron.d/php && touch /etc/cron.d/php
-
-
-  # avatars permissions folder creation fix
-  #echo "[02.DOCKER_SETUP] avatars fix"
-  #chown -R www-data:www-data /var/lib/univention-appcenter/apps/owncloud/
-
-  # symlink für collabora
-  # ln -sf /etc/ssl/certs/ca-certificates.crt /var/www/owncloud/resources/config/ca-bundle.crt
-
-  # To reduce the size of the log file, log level will be set to error (3)
-  #echo "[02.DOCKER_SETUP] log level 3"
-  #occ log:manage --level 3 2>&1 | to_logfile
-
   #restore data
   # Variables
   OWNCLOUD_PERM_DIR="/var/lib/univention-appcenter/apps/owncloud"
@@ -126,10 +108,6 @@ EOF
   else 
           echo "There is no Collabora Certificate" >> $collabora_log        
   fi
-  #cat $collabora_log
-
-  #echo "[02.DOCKER_SETUP] enabling log log rotate" 
-  #sed -i "s#);#  'log_rotate_size' => 104857600,\n&#" $OWNCLOUD_CONF/config.php
 
   echo "[95.univeniton.sh] configuring owncloud for onlyoffice use"
   sed -i "s#);#  'onlyoffice' => array ('verify_peer_off' => TRUE),\n&#" $OWNCLOUD_CONF/config.php
