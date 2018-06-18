@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 echo "[29.LDAP] Folder declaration"
+
+# creating this directory for the drone test not to fail because of the univention mount not being there
+if [ ! -d /var/lib/univention-appcenter/apps/owncloud/data/files ]
+then
+mkdir -p "/var/lib/univention-appcenter/apps/owncloud/data"
+fi
+
 OWNCLOUD_PERM_DIR="/var/lib/univention-appcenter/apps/owncloud"
 OWNCLOUD_DATA="${OWNCLOUD_PERM_DIR}/data"
-OWNCLOUD_CONF="${OWNCLOUD_PERM_DIR}/conf"
-OWNCLOUD_CONF_LDAP="${OWNCLOUD_CONF}/ldap"
-OWNCLOUD_BACKUP_DIR="${OWNCLOUD_DATA}/backup"
-OWNCLOUD_PERMCONF_DIR="/var/lib/univention-appcenter/apps/owncloud/conf"
-OWNCLOUD_LDAP_FILE="\${OWNCLOUD_PERMCONF_DIR}/ldap"
 
 ls $OWNCLOUD_DATA/files/
 
