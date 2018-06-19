@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-
-#  univention docker script setup
+#95-univention.sh
 
 to_logfile () {
   tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
 }
 
-echo "[95.univeniton.sh]: Checking if ldap file is present..."
+echo "[95.univeniton.sh] Checking if ldap file is present..."
 
 if [ -f /var/lib/univention-appcenter/apps/owncloud/conf/ldap ]
 
 then
+  echo "[95.univeniton.sh] LDAP file found, continuing..."
   OWNCLOUD_PERMCONF_DIR="/var/lib/univention-appcenter/apps/owncloud/conf"
-  OWNCLOUD_CONF_LDAP="${OWNCLOUD_CONF}/ldap"
+  OWNCLOUD_CONF_LDAP="${OWNCLOUD_PERMCONF_DIR}/ldap"
 
   echo "[95.univeniton.sh] Enable user_ldap app" 2>&1 | to_logfile
   n=1
