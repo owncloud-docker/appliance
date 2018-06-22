@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 #95-univention.sh
-touch /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
-
-to_logfile () {
-  tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
-}
-
 
 echo "[95.univeniton.sh] setting collabora URL"
 if [[ "$(occ config:app:get richdocuments wopi_url)" == "" ]]
 then
-     occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 2>&1 | to_logfile
+     occ config:app:set richdocuments wopi_url --value https://"$docker_host_name" 
 fi
 
 echo "collabora certificate check"
