@@ -48,7 +48,7 @@ then
   occ ldap:set-config s01 ldapHost ${LDAP_MASTER} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapPort ${LDAP_MASTER_PORT} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapAgentName ${LDAP_HOSTDN} 2>&1 | to_logfile
-  occ ldap:set-config s01 ldapAgentPassword $(< /etc/machine.secret) 2>&1 | to_logfile
+  occ ldap:set-config s01 ldapAgentPassword ${owncloud_ldap_agentpassword} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapBase ${owncloud_ldap_base} 2>&1 | to_logfile
   occ ldap:set-config s01 ldapLoginFilter $owncloud_ldap_loginFilter 2>&1 | to_logfile
   occ ldap:set-config s01 ldapUserFilter $owncloud_ldap_userFilter 2>&1 | to_logfile
