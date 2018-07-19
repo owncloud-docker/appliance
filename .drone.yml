@@ -30,6 +30,12 @@ pipeline:
     source: https://github.com/owncloud/user_ldap/releases/download/${LDAP_VERSION}/user_ldap.tar.gz
     sha256: ${LDAP_CHECKSUM}
 
+  onlyoffice:
+    image: plugins/donwload:latest
+    pull: true
+    source: https://github.com/ONLYOFFICE/onlyoffice-owncloud/releases/download/${ONLYOFFICE_VERSION}/onlyoffice-owncloud.tar.gz
+    sha256: ${ONLYOFFICE_CHECKSUM}
+
   wait:
     image: owncloud/ubuntu:latest
     pull: true
@@ -108,6 +114,8 @@ matrix:
       RICHDOCUMENTS_CHECKSUM: dbca97f24abecb10a23686361e56a1c91c24d9007a5c142169c75a836b8cebed
       LDAP_VERSION: v0.11.0
       LDAP_CHECKSUM: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      ONLYOFFICE_VERSION: v1.3.0
+      ONLYOFFICE_CHECKSUM: 4690a6c53f4f2b7dd22355f35dca142280c0030cf417cca762581f11eed35ae9
       IMAGE_TAGS: 10.0.9 10.0 latest
     - CORE_VERSION: 10.0.8
       CORE_CHECKSUM: 9eef77a171cf69fc89b0628b083b4b1dd15eec375599c7eb5ac0b6d37ab6f903
