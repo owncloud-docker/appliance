@@ -42,6 +42,7 @@ The available versions should be already pushed to the Docker Hub, but in case y
 wget https://download.owncloud.org/community/owncloud-10.0.8.tar.bz2
 wget https://github.com/owncloud/richdocuments/releases/download/2.0.6/richdocuments.tar.gz
 wget https://github.com/owncloud/user_ldap/releases/download/v0.11.0/user_ldap.tar.gz
+wget https://github.com/ONLYOFFICE/onlyoffice-owncloud/releases/download/v1.3.0/onlyoffice-owncloud.tar.gz
 
 docker pull owncloud/base:xenial
 docker build -t owncloud/appliance:latest .
