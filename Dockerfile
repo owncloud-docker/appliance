@@ -8,6 +8,7 @@ LABEL maintainer="ownCloud DevOps <devops@owncloud.com>" \
 ADD owncloud-*.tar.bz2 /var/www/
 ADD richdocuments.tar.gz /var/www/owncloud/apps/
 ADD user_ldap.tar.gz /var/www/owncloud/apps/
+ADD onlyoffice-owncloud.tar.gz /var/www/owncloud/apps/
 
 COPY rootfs /
 
