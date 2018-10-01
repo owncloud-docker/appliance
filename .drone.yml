@@ -15,26 +15,26 @@ pipeline:
     image: plugins/download:1
     pull: true
     secrets: [ download_username, download_password ]
-    source: https://download.owncloud.org/community/owncloud-${CORE_VERSION}.tar.bz2
-    sha256: ${CORE_CHECKSUM}
+    source: https://download.owncloud.org/community/owncloud-10.0.10.tar.bz2
+    sha256: a2efe484678c1659b9640ea247746a2174d77870d29c7d60abd565c20eb5aa84
 
   ldap:
     image: plugins/download:1
     pull: true
-    source: https://github.com/owncloud/user_ldap/releases/download/${LDAP_VERSION}/user_ldap.tar.gz
-    sha256: ${LDAP_CHECKSUM}
+    source: https://github.com/owncloud/user_ldap/releases/download/v0.11.0/user_ldap.tar.gz
+    sha256: f89b4ea5b519f30b2ceefca2cca82af5f961dc04c29dea2a7c477b1d11f1c303
 
   richdocuments:
     image: plugins/download:1
     pull: true
-    source: https://github.com/owncloud/richdocuments/releases/download/${RICHDOCUMENTS_VERSION}/richdocuments.tar.gz
-    sha256: ${RICHDOCUMENTS_CHECKSUM}
+    source: https://github.com/owncloud/richdocuments/releases/download/2.0.8/richdocuments.tar.gz
+    sha256: 4b3e8dfe48daca6455b26c35d997204113a1c3bf0dbf11e12560df32ecea4d9b
 
   onlyoffice:
     image: plugins/download:1
     pull: true
-    source: https://github.com/ONLYOFFICE/onlyoffice-owncloud/releases/download/${ONLYOFFICE_VERSION}/onlyoffice-owncloud.tar.gz
-    sha256: ${ONLYOFFICE_CHECKSUM}
+    source: https://github.com/ONLYOFFICE/onlyoffice-owncloud/releases/download/v2.0.3/onlyoffice.tar.gz
+    sha256: a2d106d8c63c7fb76c0f0792acc8e6d8c29743284ed9898b34ffe52ad641579d
 
   wait:
     image: owncloud/ubuntu:latest
@@ -48,7 +48,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://docker:2375
     commands:
-      - docker build -t owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER} .
+      - docker build -t owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} .
 
   server:
     image: toolhippie/docker:latest
@@ -57,7 +57,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://docker:2375
     commands:
-      - docker run -p 8000:80 owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}
+      - docker run -p 8000:80 owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
 
   test:
     image: owncloud/ubuntu:latest
@@ -74,7 +74,7 @@ pipeline:
       - DOCKER_HOST=tcp://docker:2375
     commands:
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - docker push owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}
+      - docker push owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
     when:
       event: [ push, pull_request ]
 
@@ -90,7 +90,7 @@ pipeline:
       - CLAIR_ADDR=clair.owncloud.com
       - CLAIR_OUTPUT=High
     commands:
-      - klar owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}
+      - klar owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
     when:
       event: [ push, pull_request ]
 
@@ -102,11 +102,12 @@ pipeline:
       - DOCKER_HOST=tcp://docker:2375
     commands:
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - |
-        for IMAGE in ${IMAGE_TAGS}; do
-          docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER} owncloud/appliance:$IMAGE
-          docker push owncloud/appliance:$IMAGE
-        done
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest
+      - docker push owncloud/appliance:latest
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0
+      - docker push owncloud/appliance:10.0
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0.10
+      - docker push owncloud/appliance:10.0.10
     when:
       event: [ push ]
 
@@ -117,7 +118,7 @@ pipeline:
     commands:
       - |
         TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'"$DOCKER_USERNAME"'", "password": "'"$DOCKER_PASSWORD"'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
-        curl -sSf -o /dev/null -H "Authorization: JWT $TOKEN" -H "Content-Type: application/json" -X DELETE https://hub.docker.com/v2/repositories/owncloud/appliance/tags/${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+        curl -sSf -o /dev/null -H "Authorization: JWT $TOKEN" -H "Content-Type: application/json" -X DELETE https://hub.docker.com/v2/repositories/owncloud/appliance/tags/${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}/
     when:
       event: [ push, pull_request ]
       status: [ success, failure ]
@@ -143,24 +144,3 @@ pipeline:
 services:
   docker:
     image: docker:18.04-dind
-
-matrix:
-  include:
-    - CORE_VERSION: 10.0.9
-      CORE_CHECKSUM: 767faedf7b236b469e71ad73a70c6250fc33fd493708d95cf31b0b58b4710973
-      RICHDOCUMENTS_VERSION: 2.0.6
-      RICHDOCUMENTS_CHECKSUM: dbca97f24abecb10a23686361e56a1c91c24d9007a5c142169c75a836b8cebed
-      LDAP_VERSION: v0.11.0
-      LDAP_CHECKSUM: f89b4ea5b519f30b2ceefca2cca82af5f961dc04c29dea2a7c477b1d11f1c303
-      ONLYOFFICE_VERSION: v1.3.0
-      ONLYOFFICE_CHECKSUM: 4690a6c53f4f2b7dd22355f35dca142280c0030cf417cca762581f11eed35ae9
-      IMAGE_TAGS: 10.0.9 10.0 latest
-    - CORE_VERSION: 10.0.8
-      CORE_CHECKSUM: 9eef77a171cf69fc89b0628b083b4b1dd15eec375599c7eb5ac0b6d37ab6f903
-      RICHDOCUMENTS_VERSION: 2.0.6
-      RICHDOCUMENTS_CHECKSUM: dbca97f24abecb10a23686361e56a1c91c24d9007a5c142169c75a836b8cebed
-      LDAP_VERSION: v0.11.0
-      LDAP_CHECKSUM: f89b4ea5b519f30b2ceefca2cca82af5f961dc04c29dea2a7c477b1d11f1c303
-      ONLYOFFICE_VERSION: v1.3.0
-      ONLYOFFICE_CHECKSUM: 4690a6c53f4f2b7dd22355f35dca142280c0030cf417cca762581f11eed35ae9
-      IMAGE_TAGS: 10.0.8
