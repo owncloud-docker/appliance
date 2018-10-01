@@ -1,3 +1,6 @@
+.envrc
+
 /owncloud-*.tar.bz2
-/richdocuments*.tar.gz
 /user_ldap*.tar.gz
+/richdocuments*.tar.gz
+/onlyoffice-owncloud*.tar.gz
