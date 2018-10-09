@@ -1,4 +1,4 @@
-FROM owncloud/base:xenial
+FROM owncloud/base:bionic
 
 LABEL maintainer="ownCloud DevOps <devops@owncloud.com>" \
   org.label-schema.name="ownCloud Appliance" \
@@ -8,7 +8,7 @@ LABEL maintainer="ownCloud DevOps <devops@owncloud.com>" \
 ADD owncloud-*.tar.bz2 /var/www/
 ADD richdocuments.tar.gz /var/www/owncloud/apps/
 ADD user_ldap.tar.gz /var/www/owncloud/apps/
-ADD onlyoffice-owncloud.tar.gz /var/www/owncloud/apps/
+ADD onlyoffice.tar.gz /var/www/owncloud/apps/
 
 COPY rootfs /
 
