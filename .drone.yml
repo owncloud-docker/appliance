@@ -57,7 +57,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://docker:2375
     commands:
-      - docker run -p 8000:80 owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
+      - docker run -p 8000:8080 owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
 
   test:
     image: owncloud/ubuntu:latest
@@ -104,10 +104,12 @@ pipeline:
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest
       - docker push owncloud/appliance:latest
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest-$(date '+%Y%m%d')
+      - docker push owncloud/appliance:latest-$(date '+%Y%m%d')
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0.10-$(date '+%Y%m%d')
+      - docker push owncloud/appliance:10.0.10-$(date '+%Y%m%d')
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0
       - docker push owncloud/appliance:10.0
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0.10
-      - docker push owncloud/appliance:10.0.10
     when:
       event: [ push ]
 

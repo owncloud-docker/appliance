@@ -18,8 +18,7 @@ To get an overview about the available versions please take a look at the [GitHu
 
 ## Ports
 
-* 80
-* 443
+* 8080
 
 
 ## Available environment variables
