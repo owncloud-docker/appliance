@@ -106,6 +106,8 @@ pipeline:
       - docker push owncloud/appliance:latest
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest-$(date '+%Y%m%d')
       - docker push owncloud/appliance:latest-$(date '+%Y%m%d')
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0.10
+      - docker push owncloud/appliance:10.0.10
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0.10-$(date '+%Y%m%d')
       - docker push owncloud/appliance:10.0.10-$(date '+%Y%m%d')
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.0
