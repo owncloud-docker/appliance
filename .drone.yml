@@ -29,7 +29,7 @@ pipeline:
     image: plugins/download:1
     pull: true
     source: https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.1.2
-    sha256: 4b3e8dfe48daca6455b26c35d997204113a1c3bf0dbf11e12560df32ecea4d9b
+    sha256: 28f9903653f3191146f838a70293afa99ac203a2a64db98ba1fb2e7adef43a9f
     destination: richdocuments.tar.gz
 
   onlyoffice:
