@@ -15,8 +15,8 @@ pipeline:
     image: plugins/download:1
     pull: true
     secrets: [ download_username, download_password ]
-    source: https://download.owncloud.org/community/owncloud-10.1.1.tar.bz2
-    sha256: c65e253fa3ea6a0bd2d3a164a7408c268d4efa0d7687c06c2bba241fc618d6dd
+    source: https://download.owncloud.org/community/owncloud-10.2.1.tar.bz2
+    sha256: cc3929d1b0269122bbbf7a4e90f1d264e28e6d4352478e85ea51f8586bafc277
 
   ldap:
     image: plugins/download:1
@@ -36,7 +36,7 @@ pipeline:
     image: plugins/download:1
     pull: true
     source: https://marketplace.owncloud.com/api/v1/apps/onlyoffice/2.1.7
-    sha256: 90650a490044c908f905e0c4fe268d4586546edff3637b0f29ac788f681c4b64
+    sha256: 90ab533a892d078f22d4263aab6ec0d86dffe32976e26135623818e10a71cf4b
     destination: onlyoffice.tar.gz
 
   wait:
@@ -109,12 +109,12 @@ pipeline:
       - docker push owncloud/appliance:latest
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest-$(date '+%Y%m%d')
       - docker push owncloud/appliance:latest-$(date '+%Y%m%d')
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.1.1
-      - docker push owncloud/appliance:10.1.1
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.1.1-$(date '+%Y%m%d')
-      - docker push owncloud/appliance:10.1.1-$(date '+%Y%m%d')
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.1
-      - docker push owncloud/appliance:10.1
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2.1
+      - docker push owncloud/appliance:10.2.1
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2.1-$(date '+%Y%m%d')
+      - docker push owncloud/appliance:10.2.1-$(date '+%Y%m%d')
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2
+      - docker push owncloud/appliance:10.2
     when:
       event: [ push ]
 
