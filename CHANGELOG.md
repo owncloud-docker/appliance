@@ -1,5 +1,13 @@
 # Changelog
 
+## 2019-07-04
+
+10.2.1 update:
+
+* Changed
+	* Upgrade oC version from 10.1.1 to 10.2.1 inc. SHA256
+	* Upgrade onlyoffice from 2.1.7 to 2.3.1 inc. SHA256
+
 ## 2018-10-09
 
 * Changed
