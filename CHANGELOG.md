@@ -1,5 +1,11 @@
 # Changelog
 
+## 2019-07-04
+
+* Changed
+  * Upgrade ownCloud version from 10.1.1 to 10.2.1
+  * Upgrade onlyoffice from 2.1.7 to 2.3.1
+
 ## 2018-10-09
 
 * Changed
