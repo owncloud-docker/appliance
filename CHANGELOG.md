@@ -1,5 +1,10 @@
 # Changelog
 
+## 2019-07-29
+
+* Changed
+  * Unified ownership of all files
+
 ## 2019-07-04
 
 * Changed
