@@ -4,6 +4,10 @@
 
 * Changed
   * Unified ownership of all files
+* Added
+  * Add link to official documentation
+* Removed
+  * Drop build examples
 
 ## 2019-07-04
 
