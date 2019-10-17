@@ -36,7 +36,7 @@ pipeline:
     image: plugins/download:1
     pull: true
     source: https://marketplace.owncloud.com/api/v1/apps/onlyoffice/3.0.3
-    sha256: BC99C5ED74AB9FA95DEDBBC791855DCE4FBA8D83704C8DC53F1A6D7E2F4C80D0
+    sha256: bc99c5ed74ab9fa95dedbbc791855dce4fba8d83704c8dc53f1a6d7e2f4c80d0
     destination: onlyoffice.tar.gz
 
   wait:
