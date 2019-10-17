@@ -15,8 +15,8 @@ pipeline:
     image: plugins/download:1
     pull: true
     secrets: [ download_username, download_password ]
-    source: https://download.owncloud.org/community/owncloud-10.2.1.tar.bz2
-    sha256: cc3929d1b0269122bbbf7a4e90f1d264e28e6d4352478e85ea51f8586bafc277
+    source: https://download.owncloud.org/community/owncloud-10.3.0.tar.bz2
+    sha256: 3fc96799af93e10f1228970371668c83d8c07a3fdca67369105e56420ff36e64
 
   ldap:
     image: plugins/download:1
@@ -35,8 +35,8 @@ pipeline:
   onlyoffice:
     image: plugins/download:1
     pull: true
-    source: https://marketplace.owncloud.com/api/v1/apps/onlyoffice/2.3.1
-    sha256: 90ab533a892d078f22d4263aab6ec0d86dffe32976e26135623818e10a71cf4b
+    source: https://marketplace.owncloud.com/api/v1/apps/onlyoffice/3.0.3
+    sha256: BC99C5ED74AB9FA95DEDBBC791855DCE4FBA8D83704C8DC53F1A6D7E2F4C80D0
     destination: onlyoffice.tar.gz
 
   wait:
@@ -109,12 +109,12 @@ pipeline:
       - docker push owncloud/appliance:latest
       - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:latest-$(date '+%Y%m%d')
       - docker push owncloud/appliance:latest-$(date '+%Y%m%d')
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2.1
-      - docker push owncloud/appliance:10.2.1
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2.1-$(date '+%Y%m%d')
-      - docker push owncloud/appliance:10.2.1-$(date '+%Y%m%d')
-      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.2
-      - docker push owncloud/appliance:10.2
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.3.0
+      - docker push owncloud/appliance:10.3.0
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.3.0-$(date '+%Y%m%d')
+      - docker push owncloud/appliance:10.3.0-$(date '+%Y%m%d')
+      - docker tag owncloud/appliance:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} owncloud/appliance:10.3
+      - docker push owncloud/appliance:10.3
     when:
       event: [ push ]
 
