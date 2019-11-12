@@ -1,5 +1,10 @@
 # Changelog
 
+## 2019-11-12
+
+* Changed
+  * Upgrade ownCloud version from 10.3.0 to 10.3.1
+
 ## 2019-10-18
 
 * Changed
