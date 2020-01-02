@@ -1,5 +1,11 @@
 # Changelog
 
+## 2020-01-02
+
+* Changed
+  * Upgrade ownCloud version from 10.3.1 to 10.3.2
+  * Upgrade LDAP, Collabora, OnlyOffice
+
 ## 2019-11-12
 
 * Changed
