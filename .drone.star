@@ -30,21 +30,6 @@ def main(ctx):
       'base': 'v19.10',
       'tags': ['10.3', '10'],
     },
-    {
-      'value': '10.2.1',
-      'qa': 'https://download.owncloud.org/community/testing/owncloud-10.2.1-qa.tar.bz2',
-      'tarball': 'https://download.owncloud.org/community/owncloud-10.2.1.tar.bz2',
-      'tarball_sha': 'cc3929d1b0269122bbbf7a4e90f1d264e28e6d4352478e85ea51f8586bafc277',
-      'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.13.0',
-      'ldap_sha': 'f35042d11df9c26d22af44dba600efa3b7d134bf93294923ebd8c5fd506a65b3',
-      'richdocuments': 'https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.1.2',
-      'richdocuments_sha': '28f9903653f3191146f838a70293afa99ac203a2a64db98ba1fb2e7adef43a9f',
-      'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/2.3.1',
-      'onlyoffice_sha': '90ab533a892d078f22d4263aab6ec0d86dffe32976e26135623818e10a71cf4b',
-      'php': '7.0',
-      'base': 'v18.04',
-      'tags': ['10.2'],
-    },
   ]
 
   arches = [
