@@ -3,7 +3,7 @@ def main(ctx):
     {
       'value': 'latest',
       'qa': 'https://download.owncloud.org/community/testing/owncloud-10.3.2-qa.tar.bz2',
-      'tarball': 'https://download.owncloud.org/community/owncloud-10.3.1.tar.bz2',
+      'tarball': 'https://download.owncloud.org/community/owncloud-10.3.2.tar.bz2',
       'tarball_sha': '0af4429bd477b4d9f829c9a69b47bb855d22c4a36de7d3e402f3852c33223c33',
       'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.15.0',
       'ldap_sha': '742703c66a8a112636c30aa500d7b4fdff670bac179fe3ae658a2b4016e5847f',
