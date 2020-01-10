@@ -9,8 +9,10 @@ For a guide how to get started with this Docker image please take a look at our 
 
 ## Versions
 
+[Docker Hub](https://hub.docker.com/r/owncloud/appliance/tags)
+
 * `latest` available as `owncloud/appliance:latest`
-* `10.3.0` available as `owncloud/appliance:10.3.0`, `owncloud/appliance:10.3`,  `owncloud/appliance:10`
+* `10.3.2` available as `owncloud/appliance:10.3.2`, `owncloud/appliance:10.3`,  `owncloud/appliance:10`
 * `10.2.1` available as `owncloud/appliance:10.2.1`, `owncloud/appliance:10.2`
 * `10.2.0` available as `owncloud/appliance:10.2.0`
 
