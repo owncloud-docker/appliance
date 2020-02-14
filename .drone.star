@@ -12,6 +12,7 @@ def main(ctx):
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.0.1',
       'onlyoffice_sha': 'b4bef78d11938d3892c4c5993cab110c149e0aadef0e60639513d9c1c2568cb1',
       'php': '7.3',
+      'behat_version': '10.3.2',
       'base': 'v19.10',
       'tags': [],
     },
@@ -698,7 +699,7 @@ def api(config):
     'pull': 'always',
     'commands': [
       'mkdir -p vendor-bin/behat',
-      'wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json' % versionize(config['version']['value']),
+      'wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json' % versionize(config['version']),
       'cd vendor-bin/behat/ && composer install',
     ],
   },
@@ -753,7 +754,7 @@ def ui(config):
     'pull': 'always',
     'commands': [
       'mkdir -p vendor-bin/behat',
-      'wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json' % versionize(config['version']['value']),
+      'wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json' % versionize(config['version']),
       'cd vendor-bin/behat/ && composer install',
     ],
   },
@@ -832,7 +833,8 @@ def cleanup(config):
   }]
 
 def versionize(version):
-    if version == 'latest':
-        return 'master'
-    else:
-        return 'v%s' % (version.replace("rc", "RC").replace("-", ""))
+  if 'behat_version' in version:
+    raw_version = version['behat_version']
+  else:
+    raw_version = version['value']
+  return 'v%s' % (raw_version.replace("rc", "RC").replace("-", ""))
