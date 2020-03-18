@@ -24,6 +24,12 @@ For a guide how to get started with this Docker image please take a look at our 
 
 * 8080
 
+## Available environment variables
+
+```
+
+```
+
 ## Inherited environment variables
 
 * [owncloud/base](https://github.com/owncloud-docker/base#available-environment-variables)
