@@ -1,5 +1,12 @@
 # Changelog
 
+## 2020-03-18
+
+* Changed
+  * Upgrade ownCloud version from 10.3.2 to 10.4.0
+  * Upgrade Collabora, OnlyOffice
+  * Added behat
+
 ## 2020-01-02
 
 * Changed
