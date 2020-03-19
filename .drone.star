@@ -12,7 +12,7 @@ def main(ctx):
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
       'php': '7.3',
-      'behat_version': '10.4.0',
+      'behat_version': 'master',
       'base': 'v19.10',
       'tags': [],
     },
@@ -29,6 +29,7 @@ def main(ctx):
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
       'php': '7.3',
       'base': 'v19.10',
+      'behat_version': 'master',
       'tags': ['10.4', '10'],
     },
     {
