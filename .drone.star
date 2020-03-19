@@ -44,6 +44,7 @@ def main(ctx):
       'onlyoffice_sha': 'b4bef78d11938d3892c4c5993cab110c149e0aadef0e60639513d9c1c2568cb1',
       'php': '7.3',
       'base': 'v19.10',
+      'behat_version': '10.3.3',
       'tags': ['10.3'],
     },
     {
