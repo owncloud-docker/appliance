@@ -853,7 +853,6 @@ def cleanup(config):
 def versionize(version):
   if 'behat_version' in version:
     raw_version = version['behat_version']
-    return '%s' % (raw_version.replace("rc", "RC").replace("-", ""))
   else:
-    raw_version = version['value']
-  return 'v%s' % (raw_version.replace("rc", "RC").replace("-", ""))
+    raw_version = 'v%s' % version['value']
+  return '%s' % (raw_version.replace("rc", "RC").replace("-", ""))
