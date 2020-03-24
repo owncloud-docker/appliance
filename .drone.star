@@ -2,19 +2,35 @@ def main(ctx):
   versions = [
     {
       'value': 'latest',
-      'qa': 'https://download.owncloud.org/community/testing/owncloud-10.3.2-qa.tar.bz2',
-      'tarball': 'https://download.owncloud.org/community/owncloud-10.3.2.tar.bz2',
-      'tarball_sha': '0af4429bd477b4d9f829c9a69b47bb855d22c4a36de7d3e402f3852c33223c33',
+      'qa': 'https://download.owncloud.org/community/daily/owncloud-daily-master-qa.tar.bz2',
+      'tarball': 'https://download.owncloud.org/community/owncloud-10.4.0.tar.bz2',
+      'tarball_sha': 'ec6ac9a507f4196453da4526f44cc079b96f7e7863bafe4eb6ba373962907bb6',
       'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.15.0',
       'ldap_sha': '742703c66a8a112636c30aa500d7b4fdff670bac179fe3ae658a2b4016e5847f',
-      'richdocuments': 'https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.2.0',
-      'richdocuments_sha': 'fb0d7668fd1e2a5e18d569ee3849ff0029476f3fba3eac181c326a9a7d99be1b',
-      'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.0.1',
-      'onlyoffice_sha': 'b4bef78d11938d3892c4c5993cab110c149e0aadef0e60639513d9c1c2568cb1',
+      'richdocuments': 'https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.3.0',
+      'richdocuments_sha': '5fe7bbe11f9f3c9d7d7eddc9a029e5cbb643834e0105cd89f377c36fdd033ecb',
+      'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
+      'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
       'php': '7.3',
-      'behat_version': '10.3.2',
+      'behat_version': 'master',
       'base': 'v19.10',
       'tags': [],
+    },
+    {
+      'value': '10.4.0',
+      'qa': 'https://download.owncloud.org/community/daily/owncloud-daily-master-qa.tar.bz2',
+      'tarball': 'https://download.owncloud.org/community/owncloud-10.4.0.tar.bz2',
+      'tarball_sha': 'ec6ac9a507f4196453da4526f44cc079b96f7e7863bafe4eb6ba373962907bb6',
+      'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.15.0',
+      'ldap_sha': '742703c66a8a112636c30aa500d7b4fdff670bac179fe3ae658a2b4016e5847f',
+      'richdocuments': 'https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.3.0',
+      'richdocuments_sha': '5fe7bbe11f9f3c9d7d7eddc9a029e5cbb643834e0105cd89f377c36fdd033ecb',
+      'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
+      'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
+      'php': '7.3',
+      'base': 'v19.10',
+      'behat_version': 'master',
+      'tags': ['10.4', '10'],
     },
     {
       'value': '10.3.2',
@@ -29,7 +45,8 @@ def main(ctx):
       'onlyoffice_sha': 'b4bef78d11938d3892c4c5993cab110c149e0aadef0e60639513d9c1c2568cb1',
       'php': '7.3',
       'base': 'v19.10',
-      'tags': ['10.3', '10'],
+      'behat_version': 'v10.3.3',
+      'tags': ['10.3'],
     },
     {
       'value': '10.2.1',
@@ -44,6 +61,7 @@ def main(ctx):
       'onlyoffice_sha': '90ab533a892d078f22d4263aab6ec0d86dffe32976e26135623818e10a71cf4b',
       'php': '7.0',
       'base': 'v18.04',
+      'behat_version': 'v10.3.3',
       'tags': ['10.2'],
     },
   ]
@@ -836,5 +854,5 @@ def versionize(version):
   if 'behat_version' in version:
     raw_version = version['behat_version']
   else:
-    raw_version = version['value']
-  return 'v%s' % (raw_version.replace("rc", "RC").replace("-", ""))
+    raw_version = 'v%s' % version['value']
+  return '%s' % (raw_version.replace("rc", "RC").replace("-", ""))
