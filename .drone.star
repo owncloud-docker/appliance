@@ -2,7 +2,7 @@ def main(ctx):
   versions = [
     {
       'value': 'latest',
-      'qa': 'https://download.owncloud.org/community/testing/owncloud-10.4.0-qa.tar.bz2',
+      'qa': 'https://download.owncloud.org/community/daily/owncloud-daily-master-qa.tar.bz2',
       'tarball': 'https://download.owncloud.org/community/owncloud-10.4.0.tar.bz2',
       'tarball_sha': 'ec6ac9a507f4196453da4526f44cc079b96f7e7863bafe4eb6ba373962907bb6',
       'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.15.0',
@@ -12,13 +12,13 @@ def main(ctx):
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
       'php': '7.3',
-      'behat_version': '10.4.0',
+      'behat_version': 'master',
       'base': 'v19.10',
       'tags': [],
     },
     {
       'value': '10.4.0',
-      'qa': 'https://download.owncloud.org/community/testing/owncloud-10.4.0-qa.tar.bz2',
+      'qa': 'https://download.owncloud.org/community/daily/owncloud-daily-master-qa.tar.bz2',
       'tarball': 'https://download.owncloud.org/community/owncloud-10.4.0.tar.bz2',
       'tarball_sha': 'ec6ac9a507f4196453da4526f44cc079b96f7e7863bafe4eb6ba373962907bb6',
       'ldap': 'https://marketplace.owncloud.com/api/v1/apps/user_ldap/0.15.0',
@@ -29,6 +29,7 @@ def main(ctx):
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
       'php': '7.3',
       'base': 'v19.10',
+      'behat_version': 'master',
       'tags': ['10.4', '10'],
     },
     {
@@ -44,6 +45,7 @@ def main(ctx):
       'onlyoffice_sha': 'b4bef78d11938d3892c4c5993cab110c149e0aadef0e60639513d9c1c2568cb1',
       'php': '7.3',
       'base': 'v19.10',
+      'behat_version': 'v10.3.3',
       'tags': ['10.3'],
     },
     {
@@ -59,6 +61,7 @@ def main(ctx):
       'onlyoffice_sha': '90ab533a892d078f22d4263aab6ec0d86dffe32976e26135623818e10a71cf4b',
       'php': '7.0',
       'base': 'v18.04',
+      'behat_version': 'v10.3.3',
       'tags': ['10.2'],
     },
   ]
@@ -851,5 +854,5 @@ def versionize(version):
   if 'behat_version' in version:
     raw_version = version['behat_version']
   else:
-    raw_version = version['value']
-  return 'v%s' % (raw_version.replace("rc", "RC").replace("-", ""))
+    raw_version = 'v%s' % version['value']
+  return '%s' % (raw_version.replace("rc", "RC").replace("-", ""))
