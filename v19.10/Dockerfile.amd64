@@ -13,6 +13,7 @@ CMD ["/usr/bin/owncloud", "server"]
 
 RUN apt-get update -y && \
   apt-get upgrade -y && \
+  apt-get install -y libapache2-mod-shib && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
