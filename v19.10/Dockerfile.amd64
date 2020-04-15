@@ -20,6 +20,7 @@ ADD owncloud.tar.bz2 /var/www/
 ADD user_ldap.tar.gz /var/www/owncloud/apps/
 ADD richdocuments.tar.gz /var/www/owncloud/apps/
 ADD onlyoffice.tar.gz /var/www/owncloud/apps/
+ADD openidconnect.tar.gz /var/www/owncloud/apps/
 
 COPY ./overlay /
 WORKDIR /var/www/owncloud
