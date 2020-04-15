@@ -11,6 +11,8 @@ def main(ctx):
       'richdocuments_sha': '5fe7bbe11f9f3c9d7d7eddc9a029e5cbb643834e0105cd89f377c36fdd033ecb',
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
+      'openidconnect': 'https://github.com/owncloud/openidconnect/releases/download/v0.2.0/openidconnect-0.2.0.tar.gz',
+      'openidconnect_sha': '877835f0ce1c8bb0a0e49b147475eb377faaf70244f2157340acb0d8d03e76bf',
       'php': '7.3',
       'base': 'v19.10',
       'tags': [],
@@ -26,6 +28,8 @@ def main(ctx):
       'richdocuments_sha': '5fe7bbe11f9f3c9d7d7eddc9a029e5cbb643834e0105cd89f377c36fdd033ecb',
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
+      'openidconnect': 'https://github.com/owncloud/openidconnect/releases/download/v0.2.0/openidconnect-0.2.0.tar.gz',
+      'openidconnect_sha': '877835f0ce1c8bb0a0e49b147475eb377faaf70244f2157340acb0d8d03e76bf',
       'php': '7.3',
       'behat_version': 'behat-10.4.0',
       'base': 'v19.10',
@@ -42,6 +46,8 @@ def main(ctx):
       'richdocuments_sha': '5fe7bbe11f9f3c9d7d7eddc9a029e5cbb643834e0105cd89f377c36fdd033ecb',
       'onlyoffice': 'https://marketplace.owncloud.com/api/v1/apps/onlyoffice/4.1.3',
       'onlyoffice_sha': '8a4b626d4a522d81be6443bbfec42a6895f20d0ae61a2e5fea26ee96497e635e',
+      'openidconnect': 'https://github.com/owncloud/openidconnect/releases/download/v0.2.0/openidconnect-0.2.0.tar.gz',
+      'openidconnect_sha': '877835f0ce1c8bb0a0e49b147475eb377faaf70244f2157340acb0d8d03e76bf',
       'php': '7.3',
       'base': 'v19.10',
       'behat_version': 'behat-10.4.0',
@@ -116,7 +122,7 @@ def docker(config):
       'os': 'linux',
       'arch': config['platform'],
     },
-    'steps': tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + prepublish(config) + sleep(config) + trivy(config),
+    'steps': tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + prepublish(config) + sleep(config) + trivy(config),
     'depends_on': [],
     'trigger': {
       'ref': [
@@ -159,7 +165,7 @@ def docker(config):
       'os': 'linux',
       'arch': config['platform'],
     },
-    'steps': tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + publish(config),
+    'steps': tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + publish(config),
     'depends_on': [],
     'trigger': {
       'ref': [
@@ -564,6 +570,18 @@ def onlyoffice(config):
       'source': config['version']['onlyoffice'],
       'sha256': config['version']['onlyoffice_sha'],
       'destination': '%s/onlyoffice.tar.gz' % config['version']['base'],
+    },
+  }]
+
+def openidconnect(config):
+  return [{
+    'name': 'openidconnect',
+    'image': 'plugins/download',
+    'pull': 'always',
+    'settings': {
+      'source': config['version']['openidconnect'],
+      'sha256': config['version']['openidconnect_sha'],
+      'destination': '%s/openidconnect.tar.gz' % config['version']['base'],
     },
   }]
 
