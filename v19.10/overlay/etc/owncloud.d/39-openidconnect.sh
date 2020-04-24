@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 if [ -z "$OPENID_PROVIDER_URL" ]
 then
-  echo "OpenID Connect will not be enabled ...."
+  echo "Disabling OpenID Connect app..."
+  occ app:disable -n openidconnect
+  echo "Removing OpenID Connect config file (if existing)..."
+  rm -rf ${OWNCLOUD_VOLUME_CONFIG}/openidconnect.config.php
 else
   echo "Writing OpenID Connect config file..."
   gomplate \
