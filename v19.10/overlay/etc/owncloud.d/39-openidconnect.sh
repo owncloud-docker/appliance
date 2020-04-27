@@ -13,6 +13,9 @@ else
 
   echo "Enabling OpenID Connect app..."
   occ app:enable -n openidconnect
+
+  echo "Forcing user sync from LDAP..."
+  occ user:sync -m disable 'OCA\User_LDAP\User_Proxy' || true
 fi
 
 true
