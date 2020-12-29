@@ -1,5 +1,13 @@
 # Changelog
 
+## 2020-12-29
+
+* Changed
+  * Upgrade ownCloud version from 10.4.1 to 10.6.0
+  * Upgrade Collabora, OnlyOffice, OpenIDconnect, LDAP
+  * Update to Ubuntu 20.04
+  * Update to PHP 7.4
+  
 ## 2020-03-18
 
 * Changed
