@@ -1,5 +1,11 @@
 # Changelog
 
+## 2021-03-29
+
+* Changed
+  * Upgrade ownCloud version from 10.6.0 to 10.7.0
+  * Upgrade OnlyOffice to 6.3.1, OpenIDconnect to 2.0.0
+
 ## 2020-12-29
 
 * Changed
