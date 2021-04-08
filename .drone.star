@@ -414,7 +414,7 @@ def downstream(config):
           'token': {
             'from_secret': 'drone_token',
           },
-          'server': 'https://cloud.drone.io',
+          'server': 'https://drone.owncloud.com',
           'repositories': config['downstream'],
         },
       },
