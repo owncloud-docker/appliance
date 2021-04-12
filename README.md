@@ -17,9 +17,9 @@ This is a custom image used within the Univention appliance, please don't use th
   `amd64`
 
 - **Inherited environments:**\
-  [owncloud/appliance](https://github.com/owncloud-docker/appliance#environment-variables),
+  [owncloud/ubuntu](https://github.com/owncloud-docker/ubuntu#environment-variables),
   [owncloud/php](https://github.com/owncloud-docker/php#environment-variables),
-  [owncloud/ubuntu](https://github.com/owncloud-docker/ubuntu#environment-variables)
+  [owncloud/base](https://github.com/owncloud-docker/base#environment-variables)
 
 ## Docker Tags and respective Dockerfile links
 
