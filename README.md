@@ -24,7 +24,7 @@ This is a custom image used within the Univention appliance, please don't use th
 ## Docker Tags and respective Dockerfile links
 
 - [`latest`](https://github.com/owncloud-docker/appliance/blob/master/latest/Dockerfile.amd64) available as `owncloud/appliance:latest`
-- [`10.7.0`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:20.04`
+- [`10.7.0`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:10.7.0`, `owncloud/appliance:10.7`, `owncloud/appliance:10`
 
 ## Default volumes
 
