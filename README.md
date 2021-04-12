@@ -6,7 +6,7 @@
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/appliance)
 [![License: MIT](https://img.shields.io/github/license/owncloud-docker/appliance)](https://github.com/owncloud-docker/appliance/blob/master/LICENSE)
 
-This is a custom image used within the Univention appliance, please don't use this as a regular Docker container! For a guide how to get started with this Docker image please take a look at our [documentation](https://doc.owncloud.com/server/latest/admin_manual/appliance/installation/installation.html).
+This is a custom image used within the Univention appliance, please don't use this as a regular Docker container! For a guide how to get started please take a look at our [documentation](https://doc.owncloud.com/server/latest/admin_manual/appliance/installation/installation.html).
 
 ## Quick reference
 
