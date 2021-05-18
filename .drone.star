@@ -47,6 +47,7 @@ def main(ctx):
     'split': 6,
     'downstream': [],
     'description': 'ownCloud image for the Univention appliance',
+    'repo': ctx.repo.name,
   }
 
   stages = []
@@ -176,7 +177,7 @@ def docker(config):
         'services': [
           {
             'name': 'server',
-            'image': 'registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+            'image': 'registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
             'pull': 'always',
             'environment': {
               'DEBUG': 'true',
@@ -237,7 +238,7 @@ def docker(config):
         'services': [
           {
             'name': 'server',
-            'image': 'registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+            'image': 'registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
             'pull': 'always',
             'environment': {
               'DEBUG': 'true',
@@ -305,7 +306,7 @@ def docker(config):
       'services': [
         {
           'name': 'server',
-          'image': 'registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+          'image': 'registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
           'pull': 'always',
           'environment': {
             'DEBUG': 'true',
@@ -594,7 +595,7 @@ def prepublish(config):
       },
       'tags': config['internal'],
       'dockerfile': '%s/Dockerfile.%s' % (config['version']['base'], config['arch']),
-      'repo': 'registry.drone.owncloud.com/owncloud/appliance',
+      'repo': 'registry.drone.owncloud.com/owncloud/%s' % config['repo'],
       'registry': 'registry.drone.owncloud.com',
       'context': config['version']['base'],
       'purge': False,
@@ -615,7 +616,7 @@ def sleep(config):
       },
     },
     'commands': [
-      'retry -- reg digest --username $DOCKER_USER --password $DOCKER_PASSWORD registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+      "retry -- 'reg digest --username $DOCKER_USER --password $DOCKER_PASSWORD registry.drone.owncloud.com/owncloud/%s:%s'" % (config['repo'], config['internal']),
     ],
   }]
 
@@ -660,7 +661,7 @@ def trivy(config):
       },
       'commands': [
         'tar -xf trivy.tar.gz',
-        'trivy registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+        'trivy registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
       ],
     },
   ]
@@ -815,9 +816,9 @@ def publish(config):
       },
       'tags': config['tag'],
       'dockerfile': '%s/Dockerfile.%s' % (config['version']['base'], config['arch']),
-      'repo': 'owncloud/appliance',
+      'repo': 'owncloud/%s' % config['repo'],
       'context': config['version']['base'],
-      'cache_from': 'registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+      'cache_from': 'registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
       'pull_image': False,
     },
     'when': {
@@ -842,7 +843,7 @@ def cleanup(config):
       },
     },
     'commands': [
-      'reg rm --username $DOCKER_USER --password $DOCKER_PASSWORD registry.drone.owncloud.com/owncloud/appliance:%s' % config['internal'],
+      'reg rm --username $DOCKER_USER --password $DOCKER_PASSWORD registry.drone.owncloud.com/owncloud/%s:%s' % (config['repo'], config['internal']),
     ],
   }]
 
