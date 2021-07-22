@@ -1,5 +1,4 @@
 def main(ctx):
-
     versions = [
         {
             "value": "10.8.0",
@@ -18,7 +17,6 @@ def main(ctx):
             "base": "v20.04",
             "tags": ["10.8", "10"],
         },
-
         {
             "value": "latest",
             "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210721-qa.tar.bz2",
@@ -37,7 +35,6 @@ def main(ctx):
             "base": "v20.04",
             "tags": [],
         },
-
         {
             "value": "10.7.0",
             "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210326-qa.tar.bz2",
@@ -55,7 +52,6 @@ def main(ctx):
             "base": "v20.04",
             "tags": ["10.7"],
         },
-
     ]
 
     arches = [
