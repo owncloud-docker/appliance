@@ -8,6 +8,7 @@
   * Upgrade ownCloud version from 10.7.0 to 10.8.0 (20210721)
   * Upgrade to user_ldap-0.15.4
   * Upgrade to richdocuments-2.5.0
+  * Upgrade to onlyoffice-6.4.3
 
 ## 2020-12-29
 
