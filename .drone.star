@@ -1,5 +1,43 @@
 def main(ctx):
+
     versions = [
+        {
+            "value": "10.8.0",
+            "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210721-qa.tar.bz2",
+            "tarball": "https://download.owncloud.org/community/owncloud-complete-20210721.tar.bz2",
+            "tarball_sha": "c98afec32d2047be12a7a2724ef27a61ef42dc7175fcf8368813ff39d22d55d8",
+            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.15.4/user_ldap-0.15.4.tar.gz",
+            "ldap_sha": "84412529b941723ef9523fe3c6d7c43cf2e44ab2522a9a9933966228f96122de",
+            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/6.3.1",
+            "onlyoffice_sha": "ea909dbba090b3780d98c9ff10df8e8ae66ed2a85105c222df523964db37d99f",
+            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.0.0",
+            "openidconnect_sha": "7ca18612288e0806d34caa74a0e0cf34347461029b6a818b724b8896ee88a307",
+            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.5.0",
+            "richdocuments_sha": "2903cbdd4e62c4d8a5edd3627612ca684211cf84641a7883d6b48a51c571be16",
+            "php": "7.4",
+            "base": "v20.04",
+            "tags": ["10.8", "10"],
+        },
+
+        {
+            "value": "latest",
+            "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210721-qa.tar.bz2",
+            "tarball": "https://download.owncloud.org/community/owncloud-complete-20210721.tar.bz2",
+            "tarball_sha": "c98afec32d2047be12a7a2724ef27a61ef42dc7175fcf8368813ff39d22d55d8",
+            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.15.4/user_ldap-0.15.4.tar.gz",
+            "ldap_sha": "84412529b941723ef9523fe3c6d7c43cf2e44ab2522a9a9933966228f96122de",
+            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/6.3.1",
+            "onlyoffice_sha": "ea909dbba090b3780d98c9ff10df8e8ae66ed2a85105c222df523964db37d99f",
+            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.0.0",
+            "openidconnect_sha": "7ca18612288e0806d34caa74a0e0cf34347461029b6a818b724b8896ee88a307",
+            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.5.0",
+            "richdocuments_sha": "2903cbdd4e62c4d8a5edd3627612ca684211cf84641a7883d6b48a51c571be16",
+            "php": "7.4",
+            "behat_version": "v10.7.0",
+            "base": "v20.04",
+            "tags": [],
+        },
+
         {
             "value": "10.7.0",
             "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210326-qa.tar.bz2",
@@ -15,26 +53,9 @@ def main(ctx):
             "richdocuments_sha": "4e6210c125fc83e3b575b835323eed3129d17b306c798c0b755206789363dcc3",
             "php": "7.4",
             "base": "v20.04",
-            "tags": ["10.7", "10"],
+            "tags": ["10.7"],
         },
-        {
-            "value": "latest",
-            "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210326-qa.tar.bz2",
-            "tarball": "https://download.owncloud.org/community/owncloud-complete-20210326.tar.bz2",
-            "tarball_sha": "a5506e1fc7abd7634dc3daaf005a4ccd0151a63c9f23aa979efebefaeb40e79c",
-            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.15.2/user_ldap-0.15.2.tar.gz",
-            "ldap_sha": "2c4cdd4f08c7b9541761afddf9ac33210619fc21c62463b0834dc651e12ecf87",
-            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/6.3.1",
-            "onlyoffice_sha": "ea909dbba090b3780d98c9ff10df8e8ae66ed2a85105c222df523964db37d99f",
-            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.0.0",
-            "openidconnect_sha": "7ca18612288e0806d34caa74a0e0cf34347461029b6a818b724b8896ee88a307",
-            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.4.1",
-            "richdocuments_sha": "4e6210c125fc83e3b575b835323eed3129d17b306c798c0b755206789363dcc3",
-            "php": "7.4",
-            "behat_version": "v10.7.0",
-            "base": "v20.04",
-            "tags": [],
-        },
+
     ]
 
     arches = [
