@@ -1,6 +1,5 @@
 def main(ctx):
     versions = [
-
         {
             "value": "10.9.1",
             "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20220112-qa.tar.bz2",
