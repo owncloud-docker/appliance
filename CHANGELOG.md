@@ -1,5 +1,13 @@
 # Changelog
 
+## 2022-05-19
+
+* Changed
+  * Upgrade ownCloud version from 10.9.1 to 10.10.0 (20220518)
+  * Upgrade to openidconnect 2.1.1
+  * Upgrade to onlyoffice 7.3.3
+  * Upgrade to richdocuments 2.7.0
+
 ## 2022-01-14
 
 * Changed
