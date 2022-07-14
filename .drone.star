@@ -52,23 +52,6 @@ def main(ctx):
             "base": "v20.04",
             "tags": ["10.9"],
         },
-        {
-            "value": "10.8.0",
-            "qa": "https://download.owncloud.org/community/testing/owncloud-complete-20210721-qa.tar.bz2",
-            "tarball": "https://download.owncloud.org/community/owncloud-complete-20210721.tar.bz2",
-            "tarball_sha": "c98afec32d2047be12a7a2724ef27a61ef42dc7175fcf8368813ff39d22d55d8",
-            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.15.4/user_ldap-0.15.4.tar.gz",
-            "ldap_sha": "84412529b941723ef9523fe3c6d7c43cf2e44ab2522a9a9933966228f96122de",
-            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.0.0",
-            "openidconnect_sha": "7ca18612288e0806d34caa74a0e0cf34347461029b6a818b724b8896ee88a307",
-            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/6.4.3",
-            "onlyoffice_sha": "432d1c9723c99448cdc361a87380072a674bea47827ce5742953670fd1e04f74",
-            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/2.5.0",
-            "richdocuments_sha": "51289898ee2c360e6be332b8b3561953014cb9901f35232e63d5a7530b1d353a",
-            "php": "7.4",
-            "base": "v20.04",
-            "tags": ["10.8"],
-        },
     ]
 
     arches = [
