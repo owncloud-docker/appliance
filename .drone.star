@@ -129,7 +129,7 @@ def docker(config):
             "os": "linux",
             "arch": config["platform"],
         },
-        "steps": tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + prepublish(config) + sleep(config) + trivy(config),
+        "steps": download(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + prepublish(config) + sleep(config) + trivy(config),
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -172,7 +172,7 @@ def docker(config):
             "os": "linux",
             "arch": config["platform"],
         },
-        "steps": tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + publish(config),
+        "steps": download(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + publish(config),
         "depends_on": [],
         "trigger": {
             "ref": [
