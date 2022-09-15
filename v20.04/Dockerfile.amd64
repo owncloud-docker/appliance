@@ -19,7 +19,7 @@ ADD richdocuments.tar.gz /var/www/owncloud/apps/
 ADD onlyoffice.tar.gz /var/www/owncloud/apps/
 ADD openidconnect.tar.gz /var/www/owncloud/apps/
 
-COPY ./overlay /
+ADD overlay /
 WORKDIR /var/www/owncloud
 
 RUN find /var/www/owncloud \( \! -user www-data -o \! -group root \) -print0 | xargs -r -0 chown www-data:root && \

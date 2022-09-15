@@ -12,23 +12,23 @@ if [ -d /var/lib/univention-appcenter/apps/owncloud/data/files ]; then
   echo "[29.LDAP.sh] checking files folder..."
   ls $OWNCLOUD_DATA/files/
 
-  if [ -f  $OWNCLOUD_DATA/files/tobemigrated ]; then
-    to_logfile () {
+  if [ -f $OWNCLOUD_DATA/files/tobemigrated ]; then
+    to_logfile() {
       tee --append /var/lib/univention-appcenter/apps/owncloud/data/files/owncloud-appcenter.log
     }
 
-    eval "$(< ${OWNCLOUD_CONF_LDAP})"
+    eval "$(<${OWNCLOUD_CONF_LDAP})"
     echo -e "\n\n------"
     cat ${OWNCLOUD_CONF_LDAP}
 
     echo "[29.LDAP.sh] enable user_ldap app..." 2>&1
     n=1
     until [ $n -ge 20 ]; do
-      r=$(occ app:enable user_ldap 2>&1)
+      occ app:enable user_ldap 2>&1
       t=$?
       echo -n "."
       [[ $t == 0 ]] && break
-      n=$(($n + 1))
+      n=$((n + 1))
       sleep 1
     done
     echo
@@ -47,8 +47,8 @@ if [ -d /var/lib/univention-appcenter/apps/owncloud/data/files ]; then
     done
 
     echo "[29.LDAP.sh] getting ldap password and encoding it..."
-    ldap_pwd_encoded=$(cat /etc/machine.secret | base64 -w 0)
-    echo $ldap_pwd_encoded > ldap_pwd
+    ldap_pwd_encoded=$(base64 -w 0 <"/etc/machine.secret")
+    echo "$ldap_pwd_encoded" >ldap_pwd
 
     echo "[29.LDAP.sh] setting ldap password..."
     occ config:app:set user_ldap ldap_agent_password --value="$(cat ldap_pwd)" 2>&1 | to_logfile
