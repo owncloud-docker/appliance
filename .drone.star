@@ -61,17 +61,25 @@ def main(ctx):
     config = {
         "version": None,
         "arch": None,
-        "split": 6,
+        "splitAPI": 10,
+        "splitUI": 5,
         "description": "ownCloud image for the Univention appliance",
         "repo": ctx.repo.name,
     }
 
     stages = []
+    shell = []
+    shell_bases = []
 
     for version in versions:
         config["version"] = version
 
         m = manifest(config)
+
+        if config["version"]["base"] not in shell_bases:
+            shell_bases.append(config["version"]["base"])
+            shell.extend(shellcheck(config))
+
         inner = []
 
         for arch in arches:
@@ -94,7 +102,7 @@ def main(ctx):
             config["internal"] = "%s-%s-%s" % (ctx.build.commit, "${DRONE_BUILD_NUMBER}", config["tag"])
 
             for d in docker(config):
-                d["depends_on"].append(checkStarlark()["name"])
+                d["depends_on"].append(lint(shell)["name"])
                 m["depends_on"].append(d["name"])
                 inner.append(d)
 
@@ -110,7 +118,7 @@ def main(ctx):
         for a in after:
             a["depends_on"].append(s["name"])
 
-    return [checkStarlark()] + stages + after
+    return [lint(shell)] + stages + after
 
 def docker(config):
     pre = [{
@@ -121,7 +129,7 @@ def docker(config):
             "os": "linux",
             "arch": config["platform"],
         },
-        "steps": tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + prepublish(config) + sleep(config) + trivy(config),
+        "steps": download(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + prepublish(config) + sleep(config) + trivy(config),
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -164,7 +172,7 @@ def docker(config):
             "os": "linux",
             "arch": config["platform"],
         },
-        "steps": tarball(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + publish(config),
+        "steps": download(config) + ldap(config) + richdocuments(config) + onlyoffice(config) + openidconnect(config) + publish(config),
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -176,7 +184,7 @@ def docker(config):
     test = []
 
     if config["arch"] == "amd64":
-        for step in list(range(1, config["split"] + 1)):
+        for step in list(range(1, config["splitAPI"] + 1)):
             config["step"] = step
 
             test.append({
@@ -237,7 +245,7 @@ def docker(config):
                 },
             })
 
-        for step in list(range(1, config["split"] + 1)):
+        for step in list(range(1, config["splitUI"] + 1)):
             config["step"] = step
 
             test.append({
@@ -261,6 +269,7 @@ def docker(config):
                             "DEBUG": "true",
                             "OWNCLOUD_APPS_INSTALL": "https://github.com/owncloud/testing/releases/download/latest/testing.tar.gz",
                             "OWNCLOUD_APPS_ENABLE": "testing",
+                            "OWNCLOUD_INTEGRITY_CHECK_DISABLED": "true",
                             "OWNCLOUD_REDIS_HOST": "redis",
                             "OWNCLOUD_DB_TYPE": "mysql",
                             "OWNCLOUD_DB_HOST": "mysql",
@@ -371,7 +380,7 @@ def manifest(config):
         "steps": [
             {
                 "name": "generate",
-                "image": "owncloud/ubuntu:19.10",
+                "image": "owncloud/ubuntu:20.04",
                 "pull": "always",
                 "environment": {
                     "MANIFEST_VERSION": config["version"]["value"],
@@ -384,7 +393,6 @@ def manifest(config):
             {
                 "name": "manifest",
                 "image": "plugins/manifest",
-                "pull": "always",
                 "settings": {
                     "username": {
                         "from_secret": "public_username",
@@ -470,7 +478,6 @@ def rocketchat(config):
             {
                 "name": "notify",
                 "image": "plugins/slack",
-                "pull": "always",
                 "failure": "ignore",
                 "settings": {
                     "webhook": {
@@ -493,11 +500,10 @@ def rocketchat(config):
         },
     }
 
-def tarball(config):
+def download(config):
     return [{
-        "name": "tarball",
+        "name": "download",
         "image": "plugins/download",
-        "pull": "always",
         "settings": {
             "username": {
                 "from_secret": "download_username",
@@ -563,7 +569,6 @@ def prepublish(config):
     return [{
         "name": "prepublish",
         "image": "plugins/docker",
-        "pull": "always",
         "settings": {
             "username": {
                 "from_secret": "internal_username",
@@ -584,7 +589,6 @@ def sleep(config):
     return [{
         "name": "sleep",
         "image": "owncloudci/alpine:latest",
-        "pull": "always",
         "environment": {
             "DOCKER_USER": {
                 "from_secret": "internal_username",
@@ -607,7 +611,6 @@ def trivy(config):
         {
             "name": "database",
             "image": "plugins/download",
-            "pull": "always",
             "settings": {
                 "source": {
                     "from_secret": "trivy_db_download_url",
@@ -643,7 +646,7 @@ def trivy(config):
 def wait(config):
     return [{
         "name": "wait",
-        "image": "owncloud/ubuntu:19.10",
+        "image": "owncloud/ubuntu:20.04",
         "pull": "always",
         "commands": [
             "wait-for-it -t 600 server:8080",
@@ -653,7 +656,7 @@ def wait(config):
 def api(config):
     return [
         {
-            "name": "tarball",
+            "name": "api-tarball",
             "image": "plugins/download",
             "pull": "always",
             "settings": {
@@ -702,7 +705,7 @@ def api(config):
                 "SKELETON_DIR": "/mnt/data/apps/testing/data/apiSkeleton",
             },
             "commands": [
-                'bash tests/acceptance/run.sh --remote --tags "@smokeTest&&~@skip&&~@skipOnDockerContainerTesting%s" --type api --part %d %d' % (extraTestFilterTags(config), config["step"], config["split"]),
+                'bash tests/acceptance/run.sh --remote --tags "@smokeTest&&~@skip&&~@skipOnDockerContainerTesting%s" --type api --part %d %d' % (extraTestFilterTags(config), config["step"], config["splitAPI"]),
             ],
         },
     ]
@@ -710,7 +713,7 @@ def api(config):
 def ui(config):
     return [
         {
-            "name": "tarball",
+            "name": "ui-tarball",
             "image": "plugins/download",
             "pull": "always",
             "settings": {
@@ -765,7 +768,7 @@ def ui(config):
                 "LOCAL_MAILHOG_HOST": "email",
             },
             "commands": [
-                'bash tests/acceptance/run.sh --remote --tags "@smokeTest&&~@skip&&~@skipOnDockerContainerTesting%s" --type webUI --part %d %d' % (extraTestFilterTags(config), config["step"], config["split"]),
+                'bash tests/acceptance/run.sh --remote --tags "@smokeTest&&~@skip&&~@skipOnDockerContainerTesting%s" --type webUI --part %d %d' % (extraTestFilterTags(config), config["step"], config["splitUI"]),
             ],
         },
     ]
@@ -773,8 +776,7 @@ def ui(config):
 def tests(config):
     return [{
         "name": "test",
-        "image": "owncloud/ubuntu:19.10",
-        "pull": "always",
+        "image": "owncloud/ubuntu:20.04",
         "commands": [
             "curl -sSf http://server:8080/status.php",
         ],
@@ -784,7 +786,6 @@ def publish(config):
     return [{
         "name": "publish",
         "image": "plugins/docker",
-        "pull": "always",
         "settings": {
             "username": {
                 "from_secret": "public_username",
@@ -810,7 +811,6 @@ def cleanup(config):
     return [{
         "name": "cleanup",
         "image": "owncloudci/alpine:latest",
-        "pull": "always",
         "failure": "ignore",
         "environment": {
             "DOCKER_USER": {
@@ -825,24 +825,22 @@ def cleanup(config):
         ],
     }]
 
-def checkStarlark():
-    return {
+def lint(shell):
+    lint = {
         "kind": "pipeline",
         "type": "docker",
-        "name": "check-starlark",
+        "name": "lint",
         "steps": [
             {
-                "name": "format-check-starlark",
+                "name": "starlark-format",
                 "image": "owncloudci/bazel-buildifier",
-                "pull": "always",
                 "commands": [
                     "buildifier --mode=check .drone.star",
                 ],
             },
             {
-                "name": "show-diff",
+                "name": "starlark-diff",
                 "image": "owncloudci/bazel-buildifier",
-                "pull": "always",
                 "commands": [
                     "buildifier --mode=fix .drone.star",
                     "git diff",
@@ -863,11 +861,26 @@ def checkStarlark():
         },
     }
 
+    lint["steps"].extend(shell)
+
+    return lint
+
+def shellcheck(config):
+    return [
+        {
+            "name": "shellcheck-%s" % (config["version"]["base"]),
+            "image": "koalaman/shellcheck-alpine:stable",
+            "commands": [
+                "grep -ErlI '^#!(.*/|.*env +)(sh|bash|ksh)' %s/overlay/ | xargs -r shellcheck" % (config["version"]["base"]),
+            ],
+        },
+    ]
+
 def versionize(version):
     if "behat_version" in version:
         return version["behat_version"]
     else:
-        return "v%s" % (version["value"].replace("rc", "RC").replace("-", ""))
+        return "v%s" % (version["value"])
 
 def extraTestFilterTags(config):
     if "version" not in config:
