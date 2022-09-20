@@ -1,5 +1,10 @@
 # Changelog
 
+## 2022-09-19
+
+* Changed
+  * Upgrade ownCloud version from 10.9.1 to 10.11.0 (20220919)
+
 ## 2022-05-19
 
 * Changed
