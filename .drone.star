@@ -250,6 +250,7 @@ def docker(config):
                         "pull": "always",
                         "environment": {
                             "DEBUG": "true",
+                            "OWNCLOUD_TRUSTED_DOMAINS": "server",
                             "OWNCLOUD_APPS_INSTALL": "https://github.com/owncloud/testing/releases/download/latest/testing.tar.gz",
                             "OWNCLOUD_APPS_ENABLE": "testing",
                             "OWNCLOUD_INTEGRITY_CHECK_DISABLED": "true",
@@ -319,6 +320,7 @@ def docker(config):
                     "pull": "always",
                     "environment": {
                         "DEBUG": "true",
+                        "OWNCLOUD_TRUSTED_DOMAINS": "server",
                         "OWNCLOUD_APPS_INSTALL": "https://github.com/owncloud/testing/releases/download/latest/testing.tar.gz",
                         "OWNCLOUD_APPS_ENABLE": "testing",
                     },
