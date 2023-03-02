@@ -2,7 +2,6 @@ def main(ctx):
     versions = [
         {
             "value": "10.11.0",
-            "qa": "https://download.owncloud.com/server/testing/owncloud-complete-20220919-qa.tar.bz2",
             "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20220919.tar.bz2",
             "tarball_sha": "8cbd911da3a77d9af3e746080bb8e4e74f4bb4c34147231c01cc0c7b8f72417f",
             "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.16.0/user_ldap-0.16.0.tar.gz",
@@ -19,7 +18,6 @@ def main(ctx):
         },
         {
             "value": "10.10.0",
-            "qa": "https://download.owncloud.com/server/testing/owncloud-complete-20220518-qa.tar.bz2",
             "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20220518.tar.bz2",
             "tarball_sha": "a6c811cfe87908e18178d69ef128993a721b0a78de6a5f8943e970bb5d201f39",
             "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.16.0/user_ldap-0.16.0.tar.gz",
@@ -61,6 +59,9 @@ def main(ctx):
         if config["version"]["base"] not in shell_bases:
             shell_bases.append(config["version"]["base"])
             shell.extend(shellcheck(config))
+
+        config["version"]["qa"] = config["version"].get("qa", "https://download.owncloud.com/server/daily/owncloud-daily-master-qa.tar.bz2")
+        config["version"]["behat"] = config["version"].get("behat", "https://raw.githubusercontent.com/owncloud/core/master/vendor-bin/behat/composer.json")
 
         inner = []
 
@@ -180,12 +181,11 @@ def docker(config):
                 "clone": {
                     "disable": True,
                 },
-                "steps": wait(config) + api(config),
+                "steps": wait_server(config) + api(config),
                 "services": [
                     {
                         "name": "server",
                         "image": "registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
-                        "pull": "always",
                         "environment": {
                             "DEBUG": "true",
                             "OWNCLOUD_TRUSTED_DOMAINS": "server",
@@ -202,7 +202,6 @@ def docker(config):
                     {
                         "name": "mysql",
                         "image": "library/mysql:5.7",
-                        "pull": "always",
                         "environment": {
                             "MYSQL_ROOT_PASSWORD": "owncloud",
                             "MYSQL_USER": "owncloud",
@@ -213,7 +212,6 @@ def docker(config):
                     {
                         "name": "redis",
                         "image": "library/redis:4.0",
-                        "pull": "always",
                     },
                 ],
                 "image_pull_secrets": [
@@ -242,12 +240,11 @@ def docker(config):
                 "clone": {
                     "disable": True,
                 },
-                "steps": wait(config) + ui(config),
+                "steps": wait_server(config) + wait_email(config) + ui(config),
                 "services": [
                     {
                         "name": "server",
                         "image": "registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
-                        "pull": "always",
                         "environment": {
                             "DEBUG": "true",
                             "OWNCLOUD_TRUSTED_DOMAINS": "server",
@@ -265,7 +262,6 @@ def docker(config):
                     {
                         "name": "mysql",
                         "image": "library/mysql:5.7",
-                        "pull": "always",
                         "environment": {
                             "MYSQL_ROOT_PASSWORD": "owncloud",
                             "MYSQL_USER": "owncloud",
@@ -276,17 +272,14 @@ def docker(config):
                     {
                         "name": "redis",
                         "image": "library/redis:4.0",
-                        "pull": "always",
                     },
                     {
                         "name": "email",
-                        "image": "mailhog/mailhog:latest",
-                        "pull": "always",
+                        "image": "inbucket/inbucket",
                     },
                     {
                         "name": "selenium",
                         "image": "selenium/standalone-chrome-debug:3.141.59-oxygen",
-                        "pull": "always",
                     },
                 ],
                 "image_pull_secrets": [
@@ -312,7 +305,7 @@ def docker(config):
             "clone": {
                 "disable": True,
             },
-            "steps": wait(config) + tests(config),
+            "steps": wait_server(config) + tests(config),
             "services": [
                 {
                     "name": "server",
@@ -631,13 +624,22 @@ def trivy(config):
         },
     ]
 
-def wait(config):
+def wait_server(config):
     return [{
         "name": "wait",
         "image": "owncloud/ubuntu:20.04",
         "pull": "always",
         "commands": [
             "wait-for-it -t 600 server:8080",
+        ],
+    }]
+
+def wait_email(config):
+    return [{
+        "name": "wait-email",
+        "image": "owncloud/ubuntu:20.04",
+        "commands": [
+            "wait-for-it -t 600 email:9000",
         ],
     }]
 
@@ -674,7 +676,7 @@ def api(config):
             "pull": "always",
             "commands": [
                 "mkdir -p vendor-bin/behat",
-                "wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json" % versionize(config["version"]),
+                "wget -O vendor-bin/behat/composer.json %s" % config["version"]["behat"],
                 "cd vendor-bin/behat/ && composer install",
             ],
         },
@@ -725,7 +727,7 @@ def ui(config):
             "pull": "always",
             "commands": [
                 "mkdir -p vendor-bin/behat",
-                "wget -O vendor-bin/behat/composer.json https://raw.githubusercontent.com/owncloud/core/%s/vendor-bin/behat/composer.json" % versionize(config["version"]),
+                "wget -O vendor-bin/behat/composer.json %s" % config["version"]["behat"],
                 "cd vendor-bin/behat/ && composer install",
             ],
         },
@@ -740,8 +742,8 @@ def ui(config):
                 "SELENIUM_HOST": "selenium",
                 "SELENIUM_PORT": "4444",
                 "PLATFORM": "Linux",
-                "MAILHOG_HOST": "email",
-                "LOCAL_MAILHOG_HOST": "email",
+                "EMAIL_HOST": "email",
+                "LOCAL_EMAIL_HOST": "email",
             },
             "commands": [
                 'bash tests/acceptance/run.sh --remote --tags "@smokeTest&&~@skip&&~@skipOnDockerContainerTesting%s" --type webUI --part %d %d' % (extraTestFilterTags(config), config["step"], config["splitUI"]),
@@ -852,12 +854,6 @@ def shellcheck(config):
             ],
         },
     ]
-
-def versionize(version):
-    if "behat_version" in version:
-        return version["behat_version"]
-    else:
-        return "v%s" % (version["value"])
 
 def extraTestFilterTags(config):
     if "version" not in config:
