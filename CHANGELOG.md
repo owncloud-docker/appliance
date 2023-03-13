@@ -1,5 +1,13 @@
 # Changelog
 
+## 2023-03-13
+
+* Changed
+  * Upgrade ownCloud version from 10.11.0 to 10.12.0 (20230313)
+  * Upgrade to user_ldap 0.17.0
+  * Upgrade to openidconnect 2.2.0
+  * Upgrade to richdocuments 3.0.0
+
 ## 2022-09-19
 
 * Changed
