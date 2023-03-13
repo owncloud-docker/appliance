@@ -1,6 +1,6 @@
 def main(ctx):
     versions = [
-	{
+        {
             "value": "10.12.0",
             "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230313.tar.bz2",
             "tarball_sha": "174f48076cefd574b35f6e5f088555eabefc46c419d621c5c0215be7621a08b9",
