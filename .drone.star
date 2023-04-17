@@ -1,15 +1,15 @@
 def main(ctx):
     versions = [
         {
-            "value": "10.12.0",
-            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230313.tar.bz2",
-            "tarball_sha": "174f48076cefd574b35f6e5f088555eabefc46c419d621c5c0215be7621a08b9",
+            "value": "10.12.1",
+            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230415.tar.bz2",
+            "tarball_sha": "4db0e834b3df661370679759f7556013d18d6e4de30a70ff30d70f89d5f25794",
             "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.17.0/user_ldap-0.17.0.tar.gz",
             "ldap_sha": "d1e0eeb010b887ac709b3adf52e0302cd442149dd83041333c837cdc3d2dbe91",
             "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.2.0",
             "openidconnect_sha": "10f02276c3f1e93f5150e3aa06e8041237d1ffe20ad85a0cedeb8579e6620d77",
-            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/7.3.3",
-            "onlyoffice_sha": "2809a2ca5b6d6c9e58a353e0de19bf6b626114da65ad825af16d1fa5c29e1784",
+            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/7.8.1",
+            "onlyoffice_sha": "15135dfdf7c7d04fc28e8c82d47a9da9749bf9b00595986239babe2fc274fb19",
             "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/3.0.0",
             "richdocuments_sha": "7d583b8679f60e65ed3cc6eafc485c40eec1ab73990e55dc62a06ef744f1c954",
             "php": "7.4",
@@ -401,7 +401,7 @@ def documentation(config):
         "steps": [
             {
                 "name": "link-check",
-                "image": "ghcr.io/tcort/markdown-link-check:stable",
+                "image": "ghcr.io/tcort/markdown-link-check:3.11.0",
                 "commands": [
                     "/src/markdown-link-check README.md",
                 ],

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2023-04-17
+
+* Changed
+  * Upgrade ownCloud version from 10.12.0 to 10.12.1 (20230415)
+  * Upgrade to onlyoffice to 7.8.1
+  * changed version of markdown-link-check from latest to 3.11.0 because of a bug in latest
+
 ## 2023-03-13
 
 * Changed
