@@ -355,7 +355,7 @@ def manifest(config):
         "steps": [
             {
                 "name": "generate",
-                "image": "quay.io/owncloud/ubuntu:20.04",
+                "image": "docker.io/owncloud/ubuntu:20.04",
                 "pull": "always",
                 "environment": {
                     "MANIFEST_VERSION": config["version"]["value"],
@@ -624,7 +624,7 @@ def trivy(config):
 def wait_server(config):
     return [{
         "name": "wait-server",
-        "image": "quay.io/owncloud/ubuntu:20.04",
+        "image": "docker.io/owncloud/ubuntu:20.04",
         "pull": "always",
         "commands": [
             "wait-for-it -t 600 server:8080",
@@ -634,7 +634,7 @@ def wait_server(config):
 def wait_email(config):
     return [{
         "name": "wait-email",
-        "image": "quay.io/owncloud/ubuntu:20.04",
+        "image": "docker.io/owncloud/ubuntu:20.04",
         "commands": [
             "wait-for-it -t 600 email:9000",
         ],
@@ -751,7 +751,7 @@ def ui(config):
 def tests(config):
     return [{
         "name": "test",
-        "image": "quay.io/owncloud/ubuntu:20.04",
+        "image": "docker.io/owncloud/ubuntu:20.04",
         "commands": [
             "curl -sSf http://server:8080/status.php",
         ],
