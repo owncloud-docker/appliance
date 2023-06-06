@@ -26,7 +26,7 @@ Custom ownCloud Docker image used within the Univention appliance, please don't 
 ## Docker Tags and respective Dockerfile links
 
 - [`latest`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:latest`
-- [`10.12.1`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:10.12.1`, `owncloud/appliance:10.12`, `owncloud/appliance:10`
+- [`10.12.2`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:10.12.2`, `owncloud/appliance:10.12`, `owncloud/appliance:10`
 - [`10.11.0`](https://github.com/owncloud-docker/appliance/blob/master/v20.04/Dockerfile.amd64) available as `owncloud/appliance:10.11.0`
 
 ## Default volumes
