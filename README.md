@@ -8,8 +8,6 @@
 
 Custom ownCloud Docker image used within the Univention appliance, please don't use this as a regular Docker container! For a guide how to get started please take a look at our [documentation](https://doc.owncloud.com/server/latest/admin_manual/appliance/installation/installation.html).
 
-> **IMPORTANT:** We had to change the behavior of the ownCloud setting for trusted domains. Instead of automatic detection, it is now required to set all trusted domains with the environment variable "OWNCLOUD_TRUSTED_DOMAINS".
-
 ## Quick reference
 
 - **Where to file issues:**\
