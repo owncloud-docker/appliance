@@ -1,9 +1,9 @@
 def main(ctx):
     versions = [
         {
-            "value": "10.13.0",
-            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230822.tar.bz2",
-            "tarball_sha": "a3da3332236f5c292d7cc05a98dce395534bac33202a0060eb53dfcce3b8aff7",
+            "value": "10.13.1",
+            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230906.tar.bz2",
+            "tarball_sha": "7419b2bdd72457e388976d152be566b9aa008c8deb960a39e00ef6866c1916bb",
             "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.18.0/user_ldap-0.18.0.tar.gz",
             "ldap_sha": "fa8513cb9a44e80112cde1fa852e4c4179a5c41a02b017636071b89ebe9196bc",
             "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.2.0",
