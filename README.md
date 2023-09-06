@@ -1,6 +1,6 @@
 # ownCloud: Appliance
 
-[![Build Status](https://img.shields.io/drone/build/owncloud-docker/appliance?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/appliance)
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud-docker/appliance/status.svg)](https://drone.owncloud.com/owncloud-docker/appliance)
 [![Docker Hub](https://img.shields.io/docker/v/owncloud/appliance?logo=docker&label=dockerhub&sort=semver&logoColor=white)](https://hub.docker.com/r/owncloud/appliance)
 [![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/appliance)](https://github.com/owncloud-docker/appliance/graphs/contributors)
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/appliance)
