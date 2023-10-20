@@ -10,6 +10,9 @@ Custom ownCloud Docker image used within the Univention appliance, please don't 
 
 ## Quick reference
 
+- **Backup of the univention appcenter files and setting:**\
+  [owncloud/appliance](https://github.com/owncloud/appliance)
+
 - **Where to file issues:**\
   [owncloud-docker/appliance](https://github.com/owncloud-docker/appliance/issues)
 
