@@ -602,7 +602,7 @@ def trivy(config):
                 "TRIVY_TIMEOUT": "5m",
                 "TRIVY_EXIT_CODE": "1",
                 "TRIVY_DB_SKIP_UPDATE": True,
-                "TRIVY_SEVERITY": "CRITICAL",
+                "TRIVY_SEVERITY": "HIGH,CRITICAL",
                 "TRIVY_CACHE_DIR": "/drone/src/trivy",
             },
             "commands": [
