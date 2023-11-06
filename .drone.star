@@ -14,7 +14,7 @@ def main(ctx):
             "richdocuments_sha": "7d583b8679f60e65ed3cc6eafc485c40eec1ab73990e55dc62a06ef744f1c954",
             "php": "7.4",
             "base": "v20.04",
-            "tags": ["10.13", "10", "latest"],
+            "tags": ["10.13.2-20231106", "10.13", "10", "latest"],
         },
         {
             "value": "10.12.2",
