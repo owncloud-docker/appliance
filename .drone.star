@@ -507,7 +507,6 @@ def wait_server(config):
     return [{
         "name": "wait-server",
         "image": UBUNTU_IMAGE,
-        "pull": "always",
         "commands": [
             "wait-for-it -t 600 server:8080",
         ],
