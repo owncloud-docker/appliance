@@ -430,7 +430,7 @@ def openidconnect(config):
 def prepublish(config):
     return [{
         "name": "prepublish",
-        "image": "docker.io/owncloudci/drone-docker-buildx:1",
+        "image"DRONE_DOCKER_BUILDX_IMAGE,
         "settings": {
             "username": {
                 "from_secret": "internal_username",
@@ -632,7 +632,7 @@ def tests(config):
 def publish(config):
     return [{
         "name": "publish",
-        "image": "docker.io/owncloudci/drone-docker-buildx:1",
+        "image"DRONE_DOCKER_BUILDX_IMAGE,
         "settings": {
             "username": {
                 "from_secret": "public_username",
