@@ -1,3 +1,10 @@
+DOCKER_PUSHRM_IMAGE = "docker.io/chko/docker-pushrm:1"
+DRONE_DOCKER_BUILDX_IMAGE = "docker.io/owncloudci/drone-docker-buildx:1"
+MARIADB_IMAGE = "docker.io/mariadb:10.6"
+REDIS_IMAGE = "docker.io/redis:6"
+UBUNTU_IMAGE = "docker.io/owncloud/ubuntu:20.04"
+STANDALONE_CHROME_DEBUG_IMAGE = "docker.io/selenium/standalone-chrome-debug:3.141.59-oxygen"
+
 def main(ctx):
     versions = [
         {
@@ -176,7 +183,7 @@ def docker(config):
                 },
                 {
                     "name": "mysql",
-                    "image": "docker.io/mariadb:10.6",
+                    "image": MARIADB_IMAGE,
                     "environment": {
                         "MYSQL_ROOT_PASSWORD": "owncloud",
                         "MYSQL_USER": "owncloud",
@@ -186,7 +193,7 @@ def docker(config):
                 },
                 {
                     "name": "redis",
-                    "image": "docker.io/redis:6",
+                    "image": REDIS_IMAGE,
                 },
             ],
             "depends_on": [],
@@ -232,7 +239,7 @@ def docker(config):
                 },
                 {
                     "name": "mysql",
-                    "image": "docker.io/mariadb:10.6",
+                    "image": MARIADB_IMAGE,
                     "environment": {
                         "MYSQL_ROOT_PASSWORD": "owncloud",
                         "MYSQL_USER": "owncloud",
@@ -242,7 +249,7 @@ def docker(config):
                 },
                 {
                     "name": "redis",
-                    "image": "docker.io/redis:6",
+                    "image": REDIS_IMAGE,
                 },
                 {
                     "name": "email",
@@ -250,7 +257,7 @@ def docker(config):
                 },
                 {
                     "name": "selenium",
-                    "image": "docker.io/selenium/standalone-chrome-debug:3.141.59-oxygen",
+                    "image": STANDALONE_CHROME_DEBUG_IMAGE,
                 },
             ],
             "depends_on": [],
@@ -296,7 +303,7 @@ def documentation(config):
             },
             {
                 "name": "publish",
-                "image": "docker.io/chko/docker-pushrm:1",
+                "image": DOCKER_PUSHRM_IMAGE,
                 "environment": {
                     "DOCKER_PASS": {
                         "from_secret": "public_password",
@@ -423,7 +430,7 @@ def openidconnect(config):
 def prepublish(config):
     return [{
         "name": "prepublish",
-        "image": "docker.io/owncloudci/drone-docker-buildx:1",
+        "image": DRONE_DOCKER_BUILDX_IMAGE,
         "settings": {
             "username": {
                 "from_secret": "internal_username",
@@ -499,7 +506,7 @@ def trivy(config):
 def wait_server(config):
     return [{
         "name": "wait-server",
-        "image": "docker.io/owncloud/ubuntu:20.04",
+        "image": UBUNTU_IMAGE,
         "commands": [
             "wait-for-it -t 600 server:8080",
         ],
@@ -508,7 +515,7 @@ def wait_server(config):
 def wait_email(config):
     return [{
         "name": "wait-email",
-        "image": "docker.io/owncloud/ubuntu:20.04",
+        "image": UBUNTU_IMAGE,
         "commands": [
             "wait-for-it -t 600 email:9000",
         ],
@@ -615,7 +622,7 @@ def ui(config):
 def tests(config):
     return [{
         "name": "test",
-        "image": "docker.io/owncloud/ubuntu:20.04",
+        "image": UBUNTU_IMAGE,
         "commands": [
             "curl -sSf http://server:8080/status.php",
         ],
@@ -624,7 +631,7 @@ def tests(config):
 def publish(config):
     return [{
         "name": "publish",
-        "image": "docker.io/owncloudci/drone-docker-buildx:1",
+        "image": DRONE_DOCKER_BUILDX_IMAGE,
         "settings": {
             "username": {
                 "from_secret": "public_username",
