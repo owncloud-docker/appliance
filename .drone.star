@@ -380,7 +380,6 @@ def ldap(config):
     return [{
         "name": "ldap",
         "image": "docker.io/plugins/download",
-        "pull": "always",
         "settings": {
             "source": config["version"]["ldap"],
             "sha256": config["version"]["ldap_sha"],
@@ -392,7 +391,6 @@ def richdocuments(config):
     return [{
         "name": "richdocuments",
         "image": "docker.io/plugins/download",
-        "pull": "always",
         "settings": {
             "source": config["version"]["richdocuments"],
             "sha256": config["version"]["richdocuments_sha"],
@@ -404,7 +402,6 @@ def onlyoffice(config):
     return [{
         "name": "onlyoffice",
         "image": "docker.io/plugins/download",
-        "pull": "always",
         "settings": {
             "source": config["version"]["onlyoffice"],
             "sha256": config["version"]["onlyoffice_sha"],
@@ -416,7 +413,6 @@ def openidconnect(config):
     return [{
         "name": "openidconnect",
         "image": "docker.io/plugins/download",
-        "pull": "always",
         "settings": {
             "source": config["version"]["openidconnect"],
             "sha256": config["version"]["openidconnect_sha"],
@@ -427,7 +423,7 @@ def openidconnect(config):
 def prepublish(config):
     return [{
         "name": "prepublish",
-        "image": "docker.io/plugins/docker",
+        "image": "docker.io/owncloudci/drone-docker-buildx:1",
         "settings": {
             "username": {
                 "from_secret": "internal_username",
@@ -504,7 +500,6 @@ def wait_server(config):
     return [{
         "name": "wait-server",
         "image": "docker.io/owncloud/ubuntu:20.04",
-        "pull": "always",
         "commands": [
             "wait-for-it -t 600 server:8080",
         ],
@@ -524,7 +519,6 @@ def api(config):
         {
             "name": "api-tarball",
             "image": "docker.io/plugins/download",
-            "pull": "always",
             "settings": {
                 "source": config["version"]["qa"],
                 "destination": "owncloud-qa.tar.bz2",
@@ -533,7 +527,6 @@ def api(config):
         {
             "name": "extract",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "tar -xjf owncloud-qa.tar.bz2 -C /drone/src --strip 1",
             ],
@@ -541,7 +534,6 @@ def api(config):
         {
             "name": "version",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "cat version.php",
             ],
@@ -549,7 +541,6 @@ def api(config):
         {
             "name": "behat",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "mkdir -p vendor-bin/behat",
                 "wget -O vendor-bin/behat/composer.json %s" % config["version"]["behat"],
@@ -559,7 +550,6 @@ def api(config):
         {
             "name": "tests",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "environment": {
                 "TEST_SERVER_URL": "http://server:8080",
                 "SKELETON_DIR": "/mnt/data/apps/testing/data/apiSkeleton",
@@ -575,7 +565,6 @@ def ui(config):
         {
             "name": "ui-tarball",
             "image": "docker.io/plugins/download",
-            "pull": "always",
             "settings": {
                 "source": config["version"]["qa"],
                 "destination": "owncloud-qa.tar.bz2",
@@ -584,7 +573,6 @@ def ui(config):
         {
             "name": "extract",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "tar -xjf owncloud-qa.tar.bz2 -C /drone/src --strip 1",
             ],
@@ -592,7 +580,6 @@ def ui(config):
         {
             "name": "version",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "cat version.php",
             ],
@@ -600,7 +587,6 @@ def ui(config):
         {
             "name": "behat",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "commands": [
                 "mkdir -p vendor-bin/behat",
                 "wget -O vendor-bin/behat/composer.json %s" % config["version"]["behat"],
@@ -610,7 +596,6 @@ def ui(config):
         {
             "name": "tests",
             "image": "docker.io/owncloudci/php:%s" % config["version"]["php"],
-            "pull": "always",
             "environment": {
                 "TEST_SERVER_URL": "http://server:8080",
                 "SKELETON_DIR": "/mnt/data/apps/testing/data/webUISkeleton",
@@ -639,7 +624,7 @@ def tests(config):
 def publish(config):
     return [{
         "name": "publish",
-        "image": "docker.io/plugins/docker",
+        "image": "docker.io/owncloudci/drone-docker-buildx:1",
         "settings": {
             "username": {
                 "from_secret": "public_username",
