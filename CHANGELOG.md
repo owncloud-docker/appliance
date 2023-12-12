@@ -52,7 +52,7 @@
   * Upgrade Collabora, OnlyOffice, OpenIDconnect, LDAP
   * Update to Ubuntu 20.04
   * Update to PHP 7.4
-  
+
 ## 2020-03-18
 
 * Changed

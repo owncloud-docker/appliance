@@ -52,6 +52,7 @@ def main(ctx):
     stages = []
     shell = []
     shell_bases = []
+    linter = lint(config)
 
     for version in versions:
         config["version"] = version
@@ -70,10 +71,12 @@ def main(ctx):
         config["version"]["tags"].append(config["version"]["value"])
 
         for d in docker(config):
-            d["depends_on"].append(lint(shell)["name"])
+            d["depends_on"].append(linter["name"])
             inner.append(d)
 
         stages.extend(inner)
+
+    linter["steps"].extend(shell)
 
     after = [
         documentation(config),
@@ -84,7 +87,7 @@ def main(ctx):
         for a in after:
             a["depends_on"].append(s["name"])
 
-    return [lint(shell)] + stages + after
+    return [linter] + stages + after
 
 def docker(config):
     pre = [{
@@ -373,100 +376,114 @@ def rocketchat(config):
     }
 
 def download(config):
-    return [{
-        "name": "download",
-        "image": "docker.io/plugins/download",
-        "settings": {
-            "source": config["version"]["tarball"],
-            "sha256": config["version"]["tarball_sha"],
-            "destination": "%s/owncloud.tar.bz2" % config["version"]["base"],
+    return [
+        {
+            "name": "download",
+            "image": "docker.io/plugins/download",
+            "settings": {
+                "source": config["version"]["tarball"],
+                "sha256": config["version"]["tarball_sha"],
+                "destination": "%s/owncloud.tar.bz2" % config["version"]["base"],
+            },
         },
-    }]
+    ]
 
 def ldap(config):
-    return [{
-        "name": "ldap",
-        "image": "docker.io/plugins/download",
-        "settings": {
-            "source": config["version"]["ldap"],
-            "sha256": config["version"]["ldap_sha"],
-            "destination": "%s/user_ldap.tar.gz" % config["version"]["base"],
+    return [
+        {
+            "name": "ldap",
+            "image": "docker.io/plugins/download",
+            "settings": {
+                "source": config["version"]["ldap"],
+                "sha256": config["version"]["ldap_sha"],
+                "destination": "%s/user_ldap.tar.gz" % config["version"]["base"],
+            },
         },
-    }]
+    ]
 
 def richdocuments(config):
-    return [{
-        "name": "richdocuments",
-        "image": "docker.io/plugins/download",
-        "settings": {
-            "source": config["version"]["richdocuments"],
-            "sha256": config["version"]["richdocuments_sha"],
-            "destination": "%s/richdocuments.tar.gz" % config["version"]["base"],
+    return [
+        {
+            "name": "richdocuments",
+            "image": "docker.io/plugins/download",
+            "settings": {
+                "source": config["version"]["richdocuments"],
+                "sha256": config["version"]["richdocuments_sha"],
+                "destination": "%s/richdocuments.tar.gz" % config["version"]["base"],
+            },
         },
-    }]
+    ]
 
 def onlyoffice(config):
-    return [{
-        "name": "onlyoffice",
-        "image": "docker.io/plugins/download",
-        "settings": {
-            "source": config["version"]["onlyoffice"],
-            "sha256": config["version"]["onlyoffice_sha"],
-            "destination": "%s/onlyoffice.tar.gz" % config["version"]["base"],
+    return [
+        {
+            "name": "onlyoffice",
+            "image": "docker.io/plugins/download",
+            "settings": {
+                "source": config["version"]["onlyoffice"],
+                "sha256": config["version"]["onlyoffice_sha"],
+                "destination": "%s/onlyoffice.tar.gz" % config["version"]["base"],
+            },
         },
-    }]
+    ]
 
 def openidconnect(config):
-    return [{
-        "name": "openidconnect",
-        "image": "docker.io/plugins/download",
-        "settings": {
-            "source": config["version"]["openidconnect"],
-            "sha256": config["version"]["openidconnect_sha"],
-            "destination": "%s/openidconnect.tar.gz" % config["version"]["base"],
+    return [
+        {
+            "name": "openidconnect",
+            "image": "docker.io/plugins/download",
+            "settings": {
+                "source": config["version"]["openidconnect"],
+                "sha256": config["version"]["openidconnect_sha"],
+                "destination": "%s/openidconnect.tar.gz" % config["version"]["base"],
+            },
         },
-    }]
+    ]
 
 def prepublish(config):
-    return [{
-        "name": "prepublish",
-        "image": DRONE_DOCKER_BUILDX_IMAGE,
-        "settings": {
-            "username": {
-                "from_secret": "internal_username",
+    return [
+        {
+            "name": "prepublish",
+            "image": DRONE_DOCKER_BUILDX_IMAGE,
+            "settings": {
+                "username": {
+                    "from_secret": "internal_username",
+                },
+                "password": {
+                    "from_secret": "internal_password",
+                },
+                "tags": config["internal"],
+                "dockerfile": "%s/Dockerfile.multiarch" % (config["version"]["base"]),
+                "repo": "registry.drone.owncloud.com/owncloud/%s" % config["repo"],
+                "registry": "registry.drone.owncloud.com",
+                "context": config["version"]["base"],
+                "purge": False,
             },
-            "password": {
-                "from_secret": "internal_password",
+            "environment": {
+                "BUILDKIT_NO_CLIENT_TOKEN": True,
             },
-            "tags": config["internal"],
-            "dockerfile": "%s/Dockerfile.multiarch" % (config["version"]["base"]),
-            "repo": "registry.drone.owncloud.com/owncloud/%s" % config["repo"],
-            "registry": "registry.drone.owncloud.com",
-            "context": config["version"]["base"],
-            "purge": False,
         },
-        "environment": {
-            "BUILDKIT_NO_CLIENT_TOKEN": True,
-        },
-    }]
+    ]
 
 def sleep(config):
-    return [{
-        "name": "sleep",
-        "image": "docker.io/owncloudci/alpine",
-        "environment": {
-            "DOCKER_USER": {
-                "from_secret": "internal_username",
+    return [
+        {
+            "name": "sleep",
+            "image": "docker.io/owncloudci/alpine",
+            "environment": {
+                "DOCKER_USER": {
+                    "from_secret": "internal_username",
+                },
+                "DOCKER_PASSWORD": {
+                    "from_secret": "internal_password",
+                },
             },
-            "DOCKER_PASSWORD": {
-                "from_secret": "internal_password",
-            },
+            "commands": [
+                "regctl registry login registry.drone.owncloud.com --user $DOCKER_USER --pass $DOCKER_PASSWORD",
+                "retry -- 'regctl image digest registry.drone.owncloud.com/owncloud/%s:%s'" % (config["repo"], config["internal"]),
+            ],
         },
-        "commands": [
-            "regctl registry login registry.drone.owncloud.com --user $DOCKER_USER --pass $DOCKER_PASSWORD",
-            "retry -- 'regctl image digest registry.drone.owncloud.com/owncloud/%s:%s'" % (config["repo"], config["internal"]),
-        ],
-    }]
+    ]
 
 # container vulnerability scanning, see: https://github.com/aquasecurity/trivy
 def trivy(config):
@@ -504,22 +521,26 @@ def trivy(config):
     ]
 
 def wait_server(config):
-    return [{
-        "name": "wait-server",
-        "image": UBUNTU_IMAGE,
-        "commands": [
-            "wait-for-it -t 600 server:8080",
-        ],
-    }]
+    return [
+        {
+            "name": "wait-server",
+            "image": UBUNTU_IMAGE,
+            "commands": [
+                "wait-for-it -t 600 server:8080",
+            ],
+        },
+    ]
 
 def wait_email(config):
-    return [{
-        "name": "wait-email",
-        "image": UBUNTU_IMAGE,
-        "commands": [
-            "wait-for-it -t 600 email:9000",
-        ],
-    }]
+    return [
+        {
+            "name": "wait-email",
+            "image": UBUNTU_IMAGE,
+            "commands": [
+                "wait-for-it -t 600 email:9000",
+            ],
+        },
+    ]
 
 def api(config):
     return [
@@ -620,60 +641,66 @@ def ui(config):
     ]
 
 def tests(config):
-    return [{
-        "name": "test",
-        "image": UBUNTU_IMAGE,
-        "commands": [
-            "curl -sSf http://server:8080/status.php",
-        ],
-    }]
-
-def publish(config):
-    return [{
-        "name": "publish",
-        "image": DRONE_DOCKER_BUILDX_IMAGE,
-        "settings": {
-            "username": {
-                "from_secret": "public_username",
-            },
-            "password": {
-                "from_secret": "public_password",
-            },
-            "tags": config["version"]["tags"],
-            "dockerfile": "%s/Dockerfile.multiarch" % (config["version"]["base"]),
-            "repo": "owncloud/%s" % config["repo"],
-            "context": config["version"]["base"],
-            "cache_from": "registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
-            "pull_image": False,
-        },
-        "when": {
-            "ref": [
-                "refs/heads/master",
+    return [
+        {
+            "name": "test",
+            "image": UBUNTU_IMAGE,
+            "commands": [
+                "curl -sSf http://server:8080/status.php",
             ],
         },
-    }]
+    ]
 
-def cleanup(config):
-    return [{
-        "name": "cleanup",
-        "image": "docker.io/owncloudci/alpine",
-        "failure": "ignore",
-        "environment": {
-            "DOCKER_USER": {
-                "from_secret": "internal_username",
+def publish(config):
+    return [
+        {
+            "name": "publish",
+            "image": DRONE_DOCKER_BUILDX_IMAGE,
+            "settings": {
+                "username": {
+                    "from_secret": "public_username",
+                },
+                "password": {
+                    "from_secret": "public_password",
+                },
+                "tags": config["version"]["tags"],
+                "dockerfile": "%s/Dockerfile.multiarch" % (config["version"]["base"]),
+                "repo": "owncloud/%s" % config["repo"],
+                "context": config["version"]["base"],
+                "cache_from": "registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
+                "pull_image": False,
             },
-            "DOCKER_PASSWORD": {
-                "from_secret": "internal_password",
+            "when": {
+                "ref": [
+                    "refs/heads/master",
+                ],
             },
         },
-        "commands": [
-            "regctl registry login registry.drone.owncloud.com --user $DOCKER_USER --pass $DOCKER_PASSWORD",
-            "regctl tag rm registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
-        ],
-    }]
+    ]
 
-def lint(shell):
-    lint = {
+def cleanup(config):
+    return [
+        {
+            "name": "cleanup",
+            "image": "docker.io/owncloudci/alpine",
+            "failure": "ignore",
+            "environment": {
+                "DOCKER_USER": {
+                    "from_secret": "internal_username",
+                },
+                "DOCKER_PASSWORD": {
+                    "from_secret": "internal_password",
+                },
+            },
+            "commands": [
+                "regctl registry login registry.drone.owncloud.com --user $DOCKER_USER --pass $DOCKER_PASSWORD",
+                "regctl tag rm registry.drone.owncloud.com/owncloud/%s:%s" % (config["repo"], config["internal"]),
+            ],
+        },
+    ]
+
+def lint(config):
+    return {
         "kind": "pipeline",
         "type": "docker",
         "name": "lint",
@@ -685,6 +712,10 @@ def lint(shell):
                     "buildifier -d -diff_command='diff -u' .drone.star",
                 ],
             },
+            {
+                "name": "editorconfig-format",
+                "image": "docker.io/mstruebing/editorconfig-checker",
+            },
         ],
         "depends_on": [],
         "trigger": {
@@ -694,10 +725,6 @@ def lint(shell):
             ],
         },
     }
-
-    lint["steps"].extend(shell)
-
-    return lint
 
 def shellcheck(config):
     return [
