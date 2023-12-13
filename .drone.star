@@ -8,20 +8,20 @@ STANDALONE_CHROME_DEBUG_IMAGE = "docker.io/selenium/standalone-chrome-debug:3.14
 def main(ctx):
     versions = [
         {
-            "value": "10.13.3",
-            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20231121.tar.bz2",
-            "tarball_sha": "4b42022ee12c28e7032617d46ca4c88cdbecd96100dcebcbf9184b2bb77530fc",
+            "value": "10.13.4",
+            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20231213.tar.bz2",
+            "tarball_sha": "4e39c500cd99e2b2a988d593aa43bf67c29e6704ecbe03fc068872f37018f523",
             "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.18.0/user_ldap-0.18.0.tar.gz",
             "ldap_sha": "fa8513cb9a44e80112cde1fa852e4c4179a5c41a02b017636071b89ebe9196bc",
             "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.2.0",
             "openidconnect_sha": "10f02276c3f1e93f5150e3aa06e8041237d1ffe20ad85a0cedeb8579e6620d77",
             "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/7.8.1",
             "onlyoffice_sha": "15135dfdf7c7d04fc28e8c82d47a9da9749bf9b00595986239babe2fc274fb19",
-            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/4.0.0",
-            "richdocuments_sha": "c1968b74fe4a9381e8800b734c34c43fbb47ed45356c483c45188191dc1241c9",
+            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/4.1.0",
+            "richdocuments_sha": "28734dce772780699bdd5e3f901a4ba972d1c1c93e86a59969f1eb6bc2d8b50f",
             "php": "7.4",
             "base": "v20.04",
-            "tags": ["10.13.3", "10.13", "10", "latest"],
+            "tags": ["10.13.4", "10.13", "10", "latest"],
         },
         {
             "value": "10.12.2",
