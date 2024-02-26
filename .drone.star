@@ -8,6 +8,22 @@ STANDALONE_CHROME_DEBUG_IMAGE = "docker.io/selenium/standalone-chrome-debug:3.14
 def main(ctx):
     versions = [
         {
+            "value": "10.14.0",
+            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20240226.tar.bz2",
+            "tarball_sha": "7b23e7f189f5ceb606fb95e96b5caa202299b3cea90e524fc59bdd3c9c30853c",
+            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.19.0/user_ldap-0.19.0.tar.gz",
+            "ldap_sha": "50f0f99388183e1d9968933666415d1d39ff9cf3339542f6119771564574c337",
+            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.2.0",
+            "openidconnect_sha": "10f02276c3f1e93f5150e3aa06e8041237d1ffe20ad85a0cedeb8579e6620d77",
+            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/8.2.3",
+            "onlyoffice_sha": "672372a96c54dcdd219a4908ccea6d9570ba83417183100e85ad8b7fd4201654",
+            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/4.2.0",
+            "richdocuments_sha": "36b4233b9890ec6cc351c7d04a67e11960352f35acca4d641b3e45f2f6845549",
+            "php": "7.4",
+            "base": "v20.04",
+            "tags": ["10.14.0", "10.14", "10", "latest"],
+        },
+        {
             "value": "10.13.4",
             "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20231213.tar.bz2",
             "tarball_sha": "4e39c500cd99e2b2a988d593aa43bf67c29e6704ecbe03fc068872f37018f523",
@@ -21,23 +37,7 @@ def main(ctx):
             "richdocuments_sha": "28734dce772780699bdd5e3f901a4ba972d1c1c93e86a59969f1eb6bc2d8b50f",
             "php": "7.4",
             "base": "v20.04",
-            "tags": ["10.13.4", "10.13", "10", "latest"],
-        },
-        {
-            "value": "10.12.2",
-            "tarball": "https://download.owncloud.com/server/stable/owncloud-complete-20230606.tar.bz2",
-            "tarball_sha": "3775bbaae65eb80013d0558126df927f0e6c5d58eb0968b88222bcd2a5de8de8",
-            "ldap": "https://github.com/owncloud/user_ldap/releases/download/v0.17.0/user_ldap-0.17.0.tar.gz",
-            "ldap_sha": "d1e0eeb010b887ac709b3adf52e0302cd442149dd83041333c837cdc3d2dbe91",
-            "openidconnect": "https://marketplace.owncloud.com/api/v1/apps/openidconnect/2.2.0",
-            "openidconnect_sha": "10f02276c3f1e93f5150e3aa06e8041237d1ffe20ad85a0cedeb8579e6620d77",
-            "onlyoffice": "https://marketplace.owncloud.com/api/v1/apps/onlyoffice/7.8.1",
-            "onlyoffice_sha": "15135dfdf7c7d04fc28e8c82d47a9da9749bf9b00595986239babe2fc274fb19",
-            "richdocuments": "https://marketplace.owncloud.com/api/v1/apps/richdocuments/3.0.0",
-            "richdocuments_sha": "7d583b8679f60e65ed3cc6eafc485c40eec1ab73990e55dc62a06ef744f1c954",
-            "php": "7.4",
-            "base": "v20.04",
-            "tags": ["10.12"],
+            "tags": ["10.13.4", "10.13"],
         },
     ]
 
